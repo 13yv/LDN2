@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>倫敦旅遊 App 2026</title>
+<style>
+  :root{
+    --navy:#0A1F44;
+    --navy-2:#132A54;
+    --crimson:#B22234;
+    --white:#FFFFFF;
+    --cream:#F6F2E7;
+    --ink:#1C1B17;
+    --line:#DCD2B8;
+    --gold:#A9812E;
+    --gold-soft:#EFE3C2;
+    --text-soft:#6B6455;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Heiti TC",sans-serif;
+    padding-bottom:78px;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* ============ 英倫風橫幅 Banner ============ */
+  .banner{
+    position:relative;
+    background:var(--navy);
+    overflow:hidden;
+    border-radius:0 0 22px 22px;
+    padding-bottom:26px;
+    border-bottom:3px solid var(--gold);
+  }
+  .banner svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .banner-content{
+    position:relative;
+    z-index:3;
+    padding:24px 18px 8px;
+    text-align:center;
+    color:var(--white);
+  }
+  .banner-content .kicker{
+    display:inline-block;
+    color:var(--gold-soft);
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:3px;
+    padding:3px 0;
+    text-transform:uppercase;
+    margin-bottom:6px;
+    border-top:1px solid var(--gold);
+    border-bottom:1px solid var(--gold);
+    padding:5px 14px;
+  }
+  .banner-content h1{
+    margin:10px 0 0;
+    font-family:Georgia,"Noto Serif TC",serif;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--white);
+  }
+  .banner-content .sub{
+    margin-top:8px;
+    font-size:12px;
+    font-weight:500;
+    color:#C7CEE0;
+    letter-spacing:0.5px;
+  }
+  .settings-btn{
+    position:absolute;
+    top:14px;
+    right:14px;
+    z-index:5;
+    width:32px;height:32px;
+    border-radius:50%;
+    background:transparent;
+    border:1.5px solid var(--gold);
+    color:var(--gold-soft);
+    font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ============ Tab bar(重疊圓角) ============ */
+  .tabbar-wrap{
+    margin-top:-18px;
+    position:relative;
+    z-index:6;
+    background:var(--cream);
+    border-radius:16px 16px 0 0;
+    box-shadow:0 -4px 12px rgba(10,31,68,0.12);
+    padding-top:8px;
+  }
+  nav.maintabs{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding:8px 10px 10px;
+  }
+  nav.maintabs button{
+    flex:0 0 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    border:1px solid var(--line);
+    background:var(--white);
+    color:var(--navy);
+    padding:7px 12px;
+    border-radius:8px;
+    font-size:11px;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  nav.maintabs button .micon{font-size:16px;}
+  nav.maintabs button.active{
+    background:var(--navy);
+    border-color:var(--navy);
+    color:var(--white);
+  }
+
+  nav.subtabs{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding:0 12px 10px;
+  }
+  nav.subtabs button{
+    flex:0 0 auto;
+    border:1px solid var(--gold);
+    background:var(--white);
+    color:var(--gold);
+    padding:6px 12px;
+    border-radius:16px;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  nav.subtabs button.active{
+    background:var(--gold);
+    color:var(--white);
+  }
+
+  .progress-row{
+    display:flex;
+    gap:8px;
+    padding:0 14px 10px;
+    overflow-x:auto;
+  }
+  .progress-pill{
+    flex:0 0 auto;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:5px 12px;
+    font-size:11.5px;
+    color:var(--navy);
+    font-weight:700;
+    white-space:nowrap;
+  }
+  .progress-pill b{color:var(--crimson);}
+
+  .day-pills{
+    display:flex;
+    gap:6px;
+    padding:0 12px 10px;
+    overflow-x:auto;
+  }
+  .day-pill{
+    flex:0 0 auto;
+    padding:7px 11px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--white);
+    text-align:center;
+    min-width:50px;
+  }
+  .day-pill .dnum{font-size:10.5px;font-weight:700;color:var(--text-soft);}
+  .day-pill .ddate{font-size:12px;font-weight:800;color:var(--navy);}
+  .day-pill.active{background:var(--navy);border-color:var(--navy);}
+  .day-pill.active .dnum{color:#B9C2E8;}
+  .day-pill.active .ddate{color:var(--white);}
+  .day-pill.tripday{border-color:var(--crimson);}
+  .day-pill.tripday .dnum{color:var(--crimson);}
+
+  .filter-row{
+    display:flex;
+    gap:6px;
+    padding:0 14px 10px;
+    flex-wrap:wrap;
+  }
+  .filter-chip{
+    font-size:12px;
+    font-weight:700;
+    padding:5px 12px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:var(--white);
+    color:var(--navy);
+  }
+  .filter-chip.active{
+    background:var(--crimson);
+    color:var(--white);
+    border-color:var(--crimson);
+  }
+
+  main{padding:6px 0 20px;}
+  .section-hint{
+    font-size:12px;
+    color:var(--text-soft);
+    padding:4px 16px 8px;
+  }
+  .empty-state{
+    margin:20px 16px;
+    padding:26px 16px;
+    text-align:center;
+    background:var(--white);
+    border:1px dashed var(--gold);
+    border-radius:10px;
+    color:var(--text-soft);
+    font-size:13px;
+  }
+
+  .day-header{padding:12px 16px 4px;}
+  .day-header .dtitle{
+    font-family:Georgia,"Noto Serif TC",serif;
+    font-size:19px;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .day-header .dsub{
+    font-size:12.5px;
+    color:var(--text-soft);
+    margin-top:2px;
+  }
+  .daytrip-banner{
+    margin:0 16px 10px;
+    padding:10px 12px;
+    background:#FBEAEA;
+    border:1px solid var(--crimson);
+    border-radius:8px;
+    font-size:12.5px;
+    color:var(--crimson);
+    font-weight:600;
+  }
+  .daytrip-banner.info{
+    background:var(--gold-soft);
+    border-color:var(--gold);
+    color:#6b4f0f;
+  }
+
+  /* ============ 單筆資料附加照片 ============ */
+  .photo-attach-row{
+    padding:0 12px 12px 46px;
+  }
+  .photo-attach-row.flush{
+    padding:0;
+    margin-top:8px;
+  }
+  .abtn.photoadd{
+    border-color:var(--gold);
+    color:#6b4f0f;
+  }
+  .photo-grid{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:8px;
+  }
+  .photo-thumb{
+    flex:0 0 auto;
+    width:60px;height:60px;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    position:relative;
+  }
+  .photo-thumb img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .photo-viewer-img{
+    width:100%;
+    border-radius:8px;
+    margin-bottom:14px;
+  }
+
+  /* ============ 卡片(共用) ============ */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin:0 14px 12px;
+    overflow:hidden;
+    box-shadow:0 1px 4px rgba(10,31,68,0.08);
+  }
+  .card.done{opacity:0.5;}
+  .card-head{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px 12px;
+  }
+  .badge{
+    flex:0 0 auto;
+    width:24px;height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+    margin-top:1px;
+  }
+  .badge.must{background:var(--crimson);color:#fff;}
+  .badge.nice{background:var(--gold);color:#fff;}
+  .badge.chill{background:var(--navy);color:#fff;}
+  .daytag{
+    flex:0 0 auto;
+    font-size:10.5px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:8px;
+    background:var(--navy);
+    color:#fff;
+    margin-top:2px;
+    white-space:nowrap;
+  }
+  .daytag.off{background:#E4DCC8;color:#7a6f4d;}
+  .card-title{flex:1;min-width:0;}
+  .card-title .name{font-weight:700;font-size:15px;line-height:1.35;color:var(--ink);}
+  .card-title .sub{font-size:12px;color:var(--text-soft);margin-top:2px;}
+  .checkbox{
+    flex:0 0 auto;
+    width:22px;height:22px;
+    border-radius:5px;
+    border:1.5px solid var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+    color:transparent;
+    margin-top:1px;
+  }
+  .checkbox.checked{background:var(--navy);color:#fff;}
+  .card-body{
+    display:none;
+    padding:0 12px 12px 46px;
+    font-size:13px;
+    line-height:1.7;
+    color:var(--ink);
+    border-top:1px dashed var(--line);
+  }
+  .card-body.open{display:block;padding-top:10px;}
+  .card-body .row{margin-bottom:7px;}
+  .card-body .label{font-weight:700;color:var(--navy);margin-right:4px;}
+  .card-body .tip{
+    background:var(--gold-soft);
+    border-left:3px solid var(--gold);
+    padding:8px 10px;
+    margin-top:8px;
+    border-radius:0 6px 6px 0;
+    font-size:12.5px;
+  }
+  .card-actions{
+    display:flex;
+    gap:8px;
+    padding:10px 12px 12px 46px;
+    flex-wrap:wrap;
+  }
+  .abtn{
+    font-size:12px;
+    font-weight:700;
+    padding:6px 11px;
+    border-radius:7px;
+    border:1px solid var(--navy);
+    background:var(--white);
+    color:var(--navy);
+    text-decoration:none;
+  }
+  .abtn.maps{border-color:#1a7a3c;color:#1a7a3c;}
+  .abtn.del{border-color:var(--crimson);color:var(--crimson);}
+
+  /* ============ 每日行程時間軸 ============ */
+  .timeline{padding:6px 16px 20px;}
+  .titem{display:flex;gap:10px;margin-bottom:2px;}
+  .titem .tline{flex:0 0 auto;width:24px;display:flex;flex-direction:column;align-items:center;}
+  .titem .ticon{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--white);border:1.5px solid var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;flex:0 0 auto;
+  }
+  .titem.done .ticon{background:var(--navy);}
+  .titem .tbar{flex:1;width:1.5px;background:var(--line);margin:2px 0;min-height:14px;}
+  .titem:last-child .tbar{display:none;}
+  .titem .tbody{flex:1;min-width:0;padding-bottom:16px;}
+  .titem .ttime{font-size:11.5px;font-weight:700;color:var(--crimson);margin-bottom:2px;}
+  .titem .tcard{
+    background:var(--white);border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;box-shadow:0 1px 4px rgba(10,31,68,0.08);
+  }
+  .titem.done .tcard{opacity:0.55;}
+  .titem .ttitle-row{display:flex;align-items:flex-start;gap:8px;}
+  .titem .ttitle{font-weight:700;font-size:14.5px;flex:1;line-height:1.4;color:var(--ink);}
+  .titem .tcheck{
+    flex:0 0 auto;width:20px;height:20px;border-radius:5px;
+    border:1.5px solid var(--navy);display:flex;align-items:center;justify-content:center;
+    font-size:12px;color:transparent;
+  }
+  .titem .tcheck.checked{background:var(--navy);color:#fff;}
+  .titem .tdesc{font-size:12.5px;color:var(--ink);margin-top:4px;line-height:1.6;}
+  .titem .ttransit{
+    font-size:12px;color:var(--navy);margin-top:6px;padding:7px 9px;
+    background:#EEF1F8;border-left:3px solid var(--navy);border-radius:0 6px 6px 0;line-height:1.6;
+  }
+  .titem .ttransit b{color:var(--crimson);}
+  .titem .tactions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+
+  /* ============ 必看清單子勾選 ============ */
+  .hlwrap{
+    margin-top:8px;
+    padding:8px 10px;
+    background:var(--gold-soft);
+    border-radius:8px;
+    border:1px solid var(--gold);
+  }
+  .hltitle{
+    font-size:11.5px;
+    font-weight:800;
+    color:#6b4f0f;
+    margin-bottom:6px;
+  }
+  .hlitem{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    padding:4px 0;
+  }
+  .hlitem.done .hltext{opacity:0.5;text-decoration:line-through;}
+  .hlcheck{
+    flex:0 0 auto;
+    width:17px;height:17px;
+    margin-top:1px;
+    border-radius:4px;
+    border:1.5px solid var(--gold);
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;
+    color:transparent;
+  }
+  .hlcheck.checked{background:var(--gold);color:#fff;}
+  .hltext{
+    font-size:12.5px;
+    color:var(--ink);
+    line-height:1.5;
+  }
+
+  /* ============ 懸浮新增按鈕 ============ */
+  .fab{
+    position:fixed;
+    right:18px;
+    bottom:22px;
+    width:54px;height:54px;
+    border-radius:50%;
+    background:var(--crimson);
+    border:2px solid var(--white);
+    color:#fff;
+    font-size:24px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.3);
+    z-index:30;
+  }
+
+  /* ============ Modal ============ */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(10,31,68,0.55);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:50;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-box{
+    background:var(--cream);
+    width:100%;
+    max-width:520px;
+    max-height:86vh;
+    overflow-y:auto;
+    border-radius:16px 16px 0 0;
+    border:1px solid var(--navy);
+    border-bottom:none;
+    padding:18px 18px 24px;
+  }
+  .modal-box h2{
+    margin:0 0 14px;
+    font-family:Georgia,"Noto Serif TC",serif;
+    font-size:17px;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .field{margin-bottom:12px;}
+  .field label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+  .field input, .field textarea, .field select{
+    width:100%;
+    border:1px solid var(--navy);
+    border-radius:7px;
+    padding:8px 10px;
+    font-size:14px;
+    font-family:inherit;
+    background:#fff;
+    color:var(--ink);
+  }
+  .field textarea{min-height:60px;resize:vertical;}
+  .modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+  }
+  .mbtn{
+    flex:1;
+    padding:11px 10px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:700;
+    border:1px solid var(--navy);
+    background:#fff;
+    color:var(--navy);
+  }
+  .mbtn.primary{background:var(--navy);color:#fff;}
+  .mbtn.danger{background:var(--crimson);border-color:var(--crimson);color:#fff;}
+  .mbtn.ghost{background:transparent;}
+
+  .settings-list{display:flex;flex-direction:column;gap:10px;}
+  .settings-list button{
+    width:100%;
+    text-align:left;
+    padding:12px 14px;
+    border-radius:8px;
+    border:1px solid var(--navy);
+    background:#fff;
+    color:var(--navy);
+    font-size:14px;
+    font-weight:700;
+  }
+  .settings-list button.danger{border-color:var(--crimson);color:var(--crimson);}
+  .io-textarea{
+    width:100%;
+    min-height:160px;
+    border:1px solid var(--navy);
+    border-radius:7px;
+    padding:8px 10px;
+    font-size:12px;
+    font-family:monospace;
+    margin-top:8px;
+  }
+  .toast{
+    position:fixed;
+    top:16px;left:50%;
+    transform:translateX(-50%);
+    background:var(--navy);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:16px;
+    font-size:13px;
+    font-weight:700;
+    z-index:80;
+    box-shadow:0 3px 10px rgba(0,0,0,0.3);
+    display:none;
+  }
+  .toast.show{display:block;}
+
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="200" fill="#0A1F44"/>
+    <g stroke="#FFFFFF" stroke-width="10" opacity="0.10">
+      <line x1="-50" y1="0" x2="450" y2="200"/>
+      <line x1="450" y1="0" x2="-50" y2="200"/>
+    </g>
+    <g stroke="#B22234" stroke-width="4" opacity="0.35">
+      <line x1="-50" y1="0" x2="450" y2="200"/>
+      <line x1="450" y1="0" x2="-50" y2="200"/>
+    </g>
+    <line x1="200" y1="0" x2="200" y2="200" stroke="#FFFFFF" stroke-width="8" opacity="0.08"/>
+    <line x1="0" y1="100" x2="400" y2="100" stroke="#FFFFFF" stroke-width="8" opacity="0.08"/>
+    <line x1="200" y1="0" x2="200" y2="200" stroke="#B22234" stroke-width="3" opacity="0.3"/>
+    <line x1="0" y1="100" x2="400" y2="100" stroke="#B22234" stroke-width="3" opacity="0.3"/>
+    <circle cx="200" cy="100" r="46" fill="none" stroke="#A9812E" stroke-width="1.5" opacity="0.55"/>
+    <circle cx="200" cy="100" r="40" fill="none" stroke="#A9812E" stroke-width="1" opacity="0.4"/>
+  </svg>
+  <button class="settings-btn" id="settingsBtn">⚙️</button>
+  <div class="banner-content">
+    <span class="kicker">A London Journey</span>
+    <h1>London 2026</h1>
+    <div class="sub">10.6 — 10.20 ・ Aparthotel Adagio London City East</div>
+  </div>
+</div>
+
+<div class="tabbar-wrap">
+  <nav class="maintabs" id="maintabs"></nav>
+  <nav class="subtabs hidden" id="subtabs"></nav>
+  <div class="day-pills hidden" id="dayPills"></div>
+  <div class="progress-row" id="progressRow"></div>
+  <div class="filter-row" id="filterRow"></div>
+</div>
+
+<main id="listArea"></main>
+
+<button class="fab" id="fabAdd">＋</button>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="photoFileInput" accept="image/*" multiple capture="environment" style="display:none;">
+
+<script>
+/* =========================================================
+   工具函式
+   ========================================================= */
+function uid(){ return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function esc(s){ return (s===undefined||s===null) ? '' : String(s); }
+function mapsUrl(q){
+  if(!q) return '';
+  let query = q;
+  if(!/london|cambridge|oxford|chichester|goodwood/i.test(query)) query = query + ' London';
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>{ t.classList.remove('show'); }, 1800);
+}
+
+/* =========================================================
+   預設資料 DEFAULT_DATA
+   ========================================================= */
+const DEFAULT_DATA = {
+  itinerary: [
+{ day:1, date:"10/6", weekday:"二", title:"出發日", tripday:false, note:"", items:[
+  {time:"05:00", icon:"🏠", title:"家裡出發", desc:"", transit:""},
+  {time:"05:45", icon:"🅿️", title:"抵達日月亭停車場", desc:"", transit:""},
+  {time:"06:00", icon:"🛫", title:"抵達桃園機場第一航廈", desc:"", transit:""},
+  {time:"08:20", icon:"✈️", title:"桃園機場 T1 起飛 CI081", desc:"", transit:""},
+  {time:"16:30", icon:"✈️", title:"抵達倫敦(當地時間)", desc:"Heathrow Terminal 3", transit:""},
+  {time:"16:30", icon:"🛂", title:"入境審查 + 提領行李", desc:"抓2小時緩衝時間,實際依現場排隊狀況調整", transit:""},
+  {time:"18:30", icon:"🚇", title:"搭乘 Elizabeth Line 前往 Whitechapel 站", desc:"不需事先買票,直接用感應信用卡、Apple Pay/Google Pay 或 Oyster卡感應搭乘即可,票價約£15.50,每日上限£16.30", transit:"Heathrow T3站(Elizabeth Line)直達 Whitechapel站,車程約48-50分鐘,中途不用轉車"},
+  {time:"19:20", icon:"🚶", title:"步行至飯店", desc:"Whitechapel站離飯店非常近", transit:"步行約5-8分鐘"},
+  {time:"19:30", icon:"🏨", title:"辦理入住、放行李", desc:"", transit:""},
+  {time:"20:00", icon:"🍽️", title:"飯店附近簡單吃 / 或直接休息", desc:"Brick Lane 就在飯店旁,走路5-10分鐘,沒食慾就先休息調時差", transit:""}
+]},
+{ day:2, date:"10/7", weekday:"三", title:"東南岸公車路線 → 西敏區經典地標", tripday:false, note:"", items:[
+  {time:"08:30", icon:"🍽️", title:"Brick Lane Beigel Bake 貝果早餐", desc:"時差睡不著的例外早餐場,順便逛一下Brick Lane", transit:"飯店步行約10分鐘"},
+  {time:"09:00", icon:"🚶", title:"Brick Lane 街區走走", desc:"這天沒有市集,單純逛街拍照", transit:"步行"},
+  {time:"09:30", icon:"🚌", title:"搭乘 #78 公車", desc:"往Nunhead方向,車站ID: 74906,在 Tower Bridge/City Hall(Stop P)下車", transit:""},
+  {time:"10:00", icon:"📍", title:"Horseleydown Old Stairs 拍照", desc:"倫敦塔橋經典取景點,從古老石階框景望向倫敦塔橋,位於 Tower Bridge 東側南岸 Shad Thames,郵遞區號SE1 2NJ", transit:"", location:"Horselydown Old Stairs, Shad Thames, London SE1 2NJ"},
+  {time:"10:30", icon:"🚌", title:"搭乘 #381 公車", desc:"在 Boss Street(Stop T,車站ID: 58728)上車,往Waterloo方向,在 Waterloo County Hall(Stop G)下車", transit:""},
+  {time:"11:00", icon:"📍", title:"倫敦眼 London Eye 拍照", desc:"County Hall旁,經典地標", transit:"下車即達"},
+  {time:"11:20", icon:"📍", title:"Bridge Arch Photo", desc:"拍攝西敏宮(Palace of Westminster)取景熱門橋拱點,郵遞區號 SE1 7GL,這裡也是網紅取景熱點", transit:"步行約5分鐘", location:"SE1 7GL, London"},
+  {time:"11:45", icon:"📍", title:"大笨鐘 Big Ben", desc:"目前僅英國公民可預約入內,遊客只能外觀拍照", transit:"跨過Westminster Bridge,步行約8分鐘"},
+  {time:"12:15", icon:"📍", title:"西敏寺 Westminster Abbey(外觀)", desc:"只在外面拍照,不安排入內參觀", transit:"步行約3分鐘"},
+  {time:"12:45", icon:"🍽️", title:"午餐隨意", desc:"", transit:""},
+  {time:"14:00", icon:"📍", title:"唐寧街10號", desc:"英國首相官邸大門外觀拍照,留意門口網紅貓「Larry the cat」是否出沒", transit:"步行約10分鐘"},
+  {time:"14:20", icon:"📍", title:"白廳皇家騎兵衛隊 Horse Guards", desc:"精確地標:Horse Guards(或導航定位 The Household Cavalry Museum),位於白廳街(Whitehall)上,正對國宴廳(Banqueting House),與衛兵合照拍照", transit:"步行約5分鐘", location:"Horse Guards, Whitehall, London SW1A 2AX"},
+  {time:"14:45", icon:"📍", title:"白金漢宮 Buckingham Palace(外觀)+ 衛兵交接", desc:"穿越聖詹姆士公園,交接通常11:00開始,若錯過時段單純外觀拍照也值得", transit:"步行約20分鐘"},
+  {time:"16:00", icon:"🚶", title:"自由活動 / 回飯店方向休息", desc:"", transit:""},
+  {time:"18:30", icon:"🍽️", title:"Tayyabs 晚餐", desc:"倫敦老字號旁遮普風道地印度咖哩家庭餐館", transit:"Fieldgate St,飯店步行約8分鐘"}
+]},
+{ day:3, date:"10/8", weekday:"四", title:"國家美術館 → 聖詹姆士 → Cork St藝廊街 → Soho", tripday:false, note:"", items:[
+  {time:"08:30", icon:"🚇", title:"出發往 Covent Garden", desc:"", transit:"Whitechapel站(Elizabeth Line)→ Tottenham Court Road站,約12分鐘,再步行約6分鐘到Covent Garden"},
+  {time:"09:00", icon:"🍽️", title:"Arôme Bakery 快閃早餐", desc:"蜂蜜奶油吐司與可頌,這是唯一保留的例外早餐,吃完就走,不久留", transit:""},
+  {time:"10:00", icon:"🏛️", title:"國家美術館 (National Gallery)", desc:"從 Sainsbury Wing(聖斯伯里翼館入口)進館,參觀與館內輕食,免費不需預約。以下是8幅鎮館之寶,依動線順序點開可逐一打勾", transit:"步行約10分鐘",
+    highlights:[
+      {text:"Room 52・揚·范·艾克《阿爾諾芬尼夫婦像》— 找牆中央凸面鏡裡畫家自己的倒影"},
+      {text:"Room 51・達文西《岩間聖母》— 暈塗法(Sfumato)極致範例"},
+      {text:"Room 4・霍爾班《大使們》— 站在畫作正右方斜角看,地面色塊變成3D骷髏頭"},
+      {text:"Room 32・卡拉瓦喬《以馬忤斯的晚餐》— 強烈明暗對比戲劇效果"},
+      {text:"Room 25・維梅爾《站在小鍵琴前的女子》— 荷蘭光影大師稀世名作"},
+      {text:"Room 34・透納《被拖去解體的戰艦無畏號》— 007《空降危機》同款畫作"},
+      {text:"Room 46・莫內《睡蓮池上的拱橋》— 吉維尼花園日本橋"},
+      {text:"Room 43・梵谷《向日葵》— 全館人氣最高壓軸,看完可順道從東翼出館逛紀念品店"}
+    ]},
+  {time:"12:30", icon:"📍", title:"Leicester Square 豆豆先生雕像", desc:"", transit:"步行約10分鐘"},
+  {time:"13:15", icon:"📍", title:"特拉法加廣場", desc:"納爾遜紀念柱、四隻青銅獅子", transit:"步行約5分鐘"},
+  {time:"14:00", icon:"🍽️", title:"午餐隨意", desc:"", transit:""},
+  {time:"15:00", icon:"🖼️", title:"White Cube Mason's Yard", desc:"極簡挑高地下空間,免費入場", transit:"步行約6分鐘", location:"White Cube Mason's Yard, 25-26 Masons Yard, London SW1Y 6BU"},
+  {time:"15:40", icon:"🖼️", title:"Alison Jacques", desc:"", transit:"步行約10分鐘", location:"Alison Jacques, 22 Cork Street, London W1S 3NG"},
+  {time:"16:00", icon:"🖼️", title:"Lisson Gallery(Cork Street分店)", desc:"與Day15的Bell Street旗艦展廳是不同空間,兩家都排進行程", transit:"步行約2分鐘,同在Cork Street上", location:"Lisson Gallery, 22 Cork Street, London W1S 3NA"},
+  {time:"16:20", icon:"🖼️", title:"Flowers Gallery", desc:"", transit:"步行約2分鐘,同在Cork Street上", location:"Flowers Gallery, Cork Street, London W1S"},
+  {time:"16:40", icon:"🖼️", title:"Hauser & Wirth", desc:"Savile Row 旗艦展廳", transit:"步行約8分鐘", location:"Hauser & Wirth, 23 Savile Row, London W1S 2ET"},
+  {time:"17:00", icon:"🖼️", title:"Pace Gallery", desc:"", transit:"步行約6分鐘", location:"Pace Gallery, 5 Hanover Square, London W1S 1HQ"},
+  {time:"17:15", icon:"🖼️", title:"The Photographers' Gallery", desc:"Oxford Circus 旁,記得去拍 photo booth 大頭貼", transit:"步行約10分鐘"},
+  {time:"18:00", icon:"🍽️", title:"漫步進入 Soho 晚餐", desc:"", transit:"步行"},
+  {time:"20:00", icon:"🚇", title:"搭車回飯店", desc:"", transit:"Piccadilly Circus站(Bakerloo線)→ Embankment站,轉District線 → Aldgate East站,約30分鐘"}
+]},
+{ day:4, date:"10/9", weekday:"五", title:"肯頓市集 + 大英博物館夜間場", tripday:false, note:"", items:[
+  {time:"09:45", icon:"🚇", title:"出發往肯頓", desc:"", transit:"Whitechapel站(Elizabeth Line)→ Tottenham Court Road站,轉Northern線 → Camden Town站,約30分鐘"},
+  {time:"10:30", icon:"🌸", title:"Camden Lock Market", desc:"逛街、吃街頭小吃", transit:""},
+  {time:"12:30", icon:"🚶", title:"沿攝政運河散步至Coal Drops Yard", desc:"Regent's Canal 河岸風光,距離約1.6公里內,適合步行", transit:"步行約30分鐘"},
+  {time:"13:00", icon:"🛍️", title:"Coal Drops Yard", desc:"建築拍照、設計選物、喝咖啡", transit:""},
+  {time:"15:00", icon:"🚇", title:"前往大英博物館", desc:"", transit:"搭乘地鐵Piccadilly線直達King's Cross St Pancras站,約20-30分鐘"},
+  {time:"15:30", icon:"🏛️", title:"大英博物館(週五延長開放至20:30)", desc:"免費,建議先訂免費時段票,最後入場20:15。從大中庭(Great Court)正門進入。以下是8件必看文物,依動線順序點開可逐一打勾", transit:"",
+    highlights:[
+      {text:"Room 4・羅塞塔石碑(Rosetta Stone)"},
+      {text:"Room 4・拉美西斯二世巨型胸像"},
+      {text:"Room 10・亞述「獵獅」浮雕石板"},
+      {text:"Room 18・帕德嫩神廟大理石雕刻"},
+      {text:"Room 61-63・古埃及木乃伊展廳與彩繪棺木"},
+      {text:"Room 41・薩頓胡船葬頭盔與寶藏"},
+      {text:"Room 40・路易斯西洋棋棋子"},
+      {text:"Room 95・大維德花瓶(元青花瓷),看完可留時間逛大中庭旗艦紀念品店"}
+    ]},
+  {time:"18:30", icon:"🛍️", title:"PRIMARK", desc:"牛津街分店,目標:2026年版卡通Jumpsuit", transit:"步行至Tottenham Court Road"},
+  {time:"晚上", icon:"🍽️", title:"晚餐隨意", desc:"", transit:""}
+]},
+{ day:5, date:"10/10", weekday:"六", title:"巴比肯 + 諾丁丘 Portobello", tripday:false, note:"", items:[
+  {time:"09:45", icon:"🚇", title:"出發往巴比肯", desc:"", transit:"Whitechapel站(Elizabeth Line)→ Liverpool Street站,約4分鐘,再轉Circle/H&C線一站到Barbican站,或步行約12分鐘"},
+  {time:"10:30", icon:"🏛️", title:"巴比肯藝術中心(建築迴廊巡禮)", desc:"先漫步高架步道、水池中庭與設計選物店", transit:""},
+  {time:"12:00", icon:"🏛️", title:"巴比肯溫室", desc:"預約12:00第一場入場,停留約45分鐘,務必提前一週上網預約", transit:"",
+    highlights:[
+      {text:"溫室內逾1500種熱帶植物與魚池"},
+      {text:"粗獷主義清水混凝土建築結構"}
+    ]},
+  {time:"13:00", icon:"🚇", title:"搭 Central 線直達西倫敦", desc:"", transit:"St Paul's站直達 Notting Hill Gate站,約25-30分鐘車程"},
+  {time:"13:45", icon:"🛍️", title:"Notting Hill 彩色街區 & Portobello Road Market", desc:"預留近3小時完整時間逛市集,攤位16:30-17:00陸續收攤,建議帶現金", transit:""},
+  {time:"晚上", icon:"🍽️", title:"晚餐隨意", desc:"", transit:""}
+]},
+{ day:6, date:"10/11", weekday:"日", title:"東倫敦市集 → 西區購物夜拍", tripday:false, note:"", items:[
+  {time:"09:00", icon:"🚌", title:"搭乘 D3 公車", desc:"在 Royal London Hospital(Stop L,車站ID: 55034)上車,在 Pollard Row(Stop SG)下車", transit:""},
+  {time:"09:20", icon:"☕", title:"Cafe 338 London(備選)", desc:"順路可考慮在這裡喝杯咖啡", transit:"", location:"Cafe 338, London"},
+  {time:"09:30", icon:"🌸", title:"哥倫比亞路花市 & 周邊獨立選品小店", desc:"僅限週日08:00-14:00,越晚花越便宜", transit:"步行約12-15分鐘至下一站"},
+  {time:"11:00", icon:"🌸", title:"Brick Lane 街頭漫步 → Vintage Market 古著挖寶 → 牙買加烤雞", desc:"", transit:"步行約3分鐘"},
+  {time:"13:15", icon:"🍽️", title:"午餐:Poppies Fish & Chips", desc:"經典炸魚薯條", transit:"步行約4分鐘"},
+  {time:"14:30", icon:"🌸", title:"Old Spitalfields Market", desc:"室內市集,設計手作與生活選品,有屋頂雨天首選", transit:""},
+  {time:"15:45", icon:"🚇", title:"搭地鐵前往西區", desc:"", transit:"Central線,Liverpool St → Oxford Circus / Piccadilly Circus,約20分鐘"},
+  {time:"16:15", icon:"🛍️", title:"Regent Street 漫步 → Fortnum & Mason", desc:"買茶葉、果醬與皇家伴手禮;備案:若還有體力可順逛木造老百貨 Liberty", transit:""},
+  {time:"17:30", icon:"📍", title:"Piccadilly Circus", desc:"經典巨型螢幕、愛神雕像夜景拍照", transit:"步行約3分鐘"},
+  {time:"18:30", icon:"🍽️", title:"China Town 晚餐", desc:"倫敦唐人街覓食、晚餐與散步", transit:""}
+]},
+{ day:7, date:"10/12", weekday:"一", title:"Seven Sisters 一日遊", tripday:true, note:"KKday / Klook Seven Sisters 套裝行程,交通由旅行社安排,依集合時間為準,天氣不佳時建議與其他天彈性對調。", items:[
+  {time:"依集合時間", icon:"🚆", title:"KKday/Klook Seven Sisters 一日遊套裝行程", desc:"跟團,全程交通由旅行社安排", transit:""},
+  {time:"晚上", icon:"🏨", title:"預計返回市區,直接回飯店休息", desc:"", transit:""}
+]},
+{ day:8, date:"10/13", weekday:"二", title:"南岸藝文 + 生日晚餐", tripday:false, note:"", items:[
+  {time:"09:30", icon:"🚇", title:"出發往南岸", desc:"", transit:"Aldgate East站(District線)→ Southwark站,約20分鐘"},
+  {time:"10:00", icon:"🏛️", title:"海沃德美術館(Hayward Gallery)", desc:"預約10:00入場,停留2小時,標準票£19,Anish Kapoor個展只到10/18", transit:"",
+    highlights:[
+      {text:"標誌性巨型凹面/凸面鏡雕塑系列"},
+      {text:"大型紅蠟塑形裝置作品"},
+      {text:"早期代表作《1000 Names》色粉雕塑"}
+    ]},
+  {time:"12:00", icon:"🍽️", title:"Southbank Centre & 泰晤士河南岸午餐", desc:"預留1.5小時充裕用餐與漫步,可在周邊餐廳或沿 Queen's Walk 享用", transit:""},
+  {time:"13:30", icon:"🏛️", title:"泰特現代美術館(Tate Modern)", desc:"預約13:30入場,參觀常設展、渦輪大廳與當代藝術裝置,16:00離館。13:45已預約 Julio Le Parc 倫敦個展《Light. Colour. Action》。Do Ho Suh(徐道獲)紗織雕塑作品在北側 Natalie Bell Building 2樓或4樓「Artist and Society」展廳,進館可跟資訊台詢問當日確切Room號碼", transit:"步行10分鐘沿河岸走",
+    highlights:[
+      {text:"Turbine Hall(渦輪大廳)・巨型當代裝置藝術"},
+      {text:"Level 2・畢卡索《戴項鍊的裸女》"},
+      {text:"Natalie Bell Building・Do Ho Suh(徐道獲)紗織建築裝置"},
+      {text:"Level 4・Rothko Room 馬克·羅斯科西格拉姆壁畫系列"},
+      {text:"Level 10・免費觀景台俯瞰聖保羅大教堂全景"}
+    ]},
+  {time:"16:00", icon:"📍", title:"千禧橋", desc:"正對聖保羅大教堂圓頂拍照,最晚16:30離開", transit:""},
+  {time:"16:30", icon:"🚇", title:"搭車返回飯店", desc:"", transit:"St Paul's站或Blackfriars站,約20分鐘"},
+  {time:"17:00", icon:"🏨", title:"飯店休息與梳洗換裝", desc:"預留1小時15分鐘,整理妝髮並更換晚間服裝", transit:""},
+  {time:"18:25", icon:"🚶", title:"出發前往餐廳", desc:"", transit:""},
+  {time:"18:50", icon:"🎂", title:"生日晚餐:Bread Street Kitchen & Bar", desc:"已訂位確認 #110378,兩人。13-14 South Place, London EC2M 7EB", transit:""}
+]},
+{ day:9, date:"10/14", weekday:"三", title:"Oxford + Bicester Village", tripday:true, note:"", items:[
+  {time:"08:35", icon:"🚇", title:"前往 Paddington 車站", desc:"", transit:"自 Whitechapel 站搭乘 Elizabeth Line 直達 London Paddington (PAD)"},
+  {time:"09:23", icon:"🚆", title:"搭乘國鐵前往牛津", desc:"GWR直達列車,車程56分鐘,10:19抵達牛津火車站(OXF)", transit:""},
+  {time:"10:20", icon:"🚶", title:"牛津3小時精華快閃漫步", desc:"基督堂學院外觀與湯姆方庭 → 博德利圖書館群、圓形圖書館、嘆息橋拍照 → Covered Market百年市集輕食午餐 → Modern Art Oxford(免門票)", transit:""},
+  {time:"13:05", icon:"🚶", title:"步行返回牛津火車站", desc:"沿Pembroke St步行約10-12分鐘", transit:""},
+  {time:"13:19", icon:"🚆", title:"搭乘國鐵前往比斯特", desc:"Chiltern Railways直達車,車程15分鐘,13:34抵達Bicester Village站(BIT)", transit:""},
+  {time:"13:35", icon:"🛍️", title:"Bicester Village 購物", desc:"等候可喬接送", transit:""},
+  {time:"17:30", icon:"🚗", title:"可喬接回市區,一起晚餐", desc:"晚餐她決定", transit:""}
+]},
+{ day:10, date:"10/15", weekday:"四", title:"V&A雙館沉浸日", tripday:false, note:"Dishoom晚餐的交通,文件裡寫的是「Elizabeth線轉Central線到Shoreditch High Street」,但Shoreditch High Street實際上是London Overground的站,不是Central線,我已經改用正確的Overground路線,請留意。", items:[
+  {time:"09:30", icon:"🚇", title:"出發往史特拉福", desc:"備選:搭#254公車在The East London Mosque(Stop J,站ID 47407)上車往Holloway方向,在Old Ford Road(Stop G)下車,接著轉搭#388公車(Stratford City站ID 73343)在The Copper Box(Stop N)下車", transit:"Whitechapel站(Elizabeth Line)直達 Stratford站,約10分鐘,往Shenfield方向"},
+  {time:"10:00", icon:"🏛️", title:"V&A 東館庫房(V&A East Storehouse)", desc:"地址:Here East, Queen Elizabeth Olympic Park, Stratford, London E20 3BS。預約10:00第一場入場,停留3小時。參觀超過25萬件藏品之開放式庫房、透明修復工作室,並體驗「Order an Object」自選調閱館藏近距離觀看服務", transit:"",
+    highlights:[
+      {text:"開放式庫房高塔陳列牆・逾25萬件藏品一次盡收眼底"},
+      {text:"玻璃修復工作室・近距離觀察文物修復現場"},
+      {text:"Robin Hood Gardens建築立面搶救片段"},
+      {text:"Order an Object 預約調閱・親手近觀指定館藏"}
+    ]},
+  {time:"13:00", icon:"🚶", title:"奧林匹克公園運河畔散步與午餐", desc:"從Storehouse沿運河漫步至Stratford Waterfront(約10-15分鐘步程),於園區咖啡館享用輕食,或許可以吃希臘菜Taverna in the Park", transit:""},
+  {time:"14:30", icon:"🏛️", title:"V&A 東館(V&A East Museum)", desc:"地址:Stratford Waterfront, Queen Elizabeth Olympic Park, London E20。參觀當代設計、全球創作者、時尚次文化常設展廳與大型特展,停留3小時", transit:"",
+    highlights:[
+      {text:"「Design Now」當代設計精選常設展"},
+      {text:"全球創作者跨文化展廳"},
+      {text:"次文化與街頭時尚展區"}
+    ]},
+  {time:"18:00", icon:"🍽️", title:"Dishoom 晚餐(Shoreditch店)", desc:"7 Boundary St, E2 7JE。招牌House Black Daal(黑扁豆咖哩)、烤餅與經典調酒,約17:45-18:00抵達候位", transit:"從V&A東館步行10-12分鐘至Stratford站,搭London Overground直達Shoreditch High Street站(約10-12分鐘),出站步行4-5分鐘,總耗時約25-30分鐘"}
+]},
+{ day:11, date:"10/16", weekday:"五", title:"Goodwood Art Foundation 一日遊", tripday:true, note:"火車票價使用 Advance Single 來回票組合(去程09:35/回程17:09固定班次),請提前訂購。", items:[
+  {time:"08:40", icon:"🚇", title:"前往 Victoria 車站", desc:"", transit:"從東倫敦飯店(Aldgate East)搭District Line直達London Victoria車站,約35分鐘"},
+  {time:"09:35", icon:"🚆", title:"倫敦Victoria出發 → 11:07抵達Chichester(CCH)", desc:"直達列車", transit:""},
+  {time:"11:07", icon:"🚕", title:"Chichester車站出站與等車", desc:"往車站北側出口(North Forecourt)前往專屬站牌", transit:""},
+  {time:"11:20", icon:"🚌", title:"接駁車發車 → 11:35抵達Goodwood Art Foundation園區入口", desc:"", transit:""},
+  {time:"11:35", icon:"🌳", title:"入園寄物 & 漫步景觀大師 Dan Pearson 打造的迎賓花園步道", desc:"", transit:""},
+  {time:"12:30", icon:"🍽️", title:"餐廳「24」午餐(訂位12:30)", desc:"享用3-Course在地有機季節午餐,順道欣賞中庭與牆面Polly Apfelbaum的陶瓷與紙上作品", transit:""},
+  {time:"14:00", icon:"🎨", title:"沉浸式參觀:室內雙展廳 & 70英畝戶外地景雕塑", desc:"依序參觀主打展覽《MoonSunStarEarthSkyWater》、戶外白堊採石場、野花草原與林間雕塑,夏季限定8週的《FREE FORM》互動裝置(融合雕塑、建築與遊樂設施體驗)如仍在展出也別錯過。以下是必看作品,點開可逐一打勾", transit:"",
+    highlights:[
+      {text:"The Gallery主展廳・Nancy Holt個展《MoonSunStarEarthSkyWater》,特別留意《Ventilation System》從戶外延伸至室內的空間對話"},
+      {text:"Pigott Gallery・Eva Rothschild個展(West Dean College手工織毯與立體雕塑)"},
+      {text:"白堊採石場・Nancy Holt《Hydra's Head》(1974,六個蓄水池對應九頭蛇座排列)"},
+      {text:"Hélio Oiticica《Magic Square #3》— 2026新揭幕彩色可走入式迷宮裝置"},
+      {text:"李禹煥(Lee Ufan)《Relatum》系列巨石與鋼板對話"},
+      {text:"草間彌生(Yayoi Kusama)經典波點南瓜雕塑"},
+      {text:"Rachel Whiteread 大型混凝土翻模雕塑"},
+      {text:"Susan Philipsz 林間聲音裝置"},
+      {text:"Rose Wylie 粉紅鳳梨雕塑"},
+      {text:"野口勇(Isamu Noguchi)幾何雕塑"}
+    ]},
+  {time:"16:15", icon:"🚌", title:"前往接駁車站牌", desc:"取回隨身物品", transit:""},
+  {time:"16:25", icon:"🚌", title:"園區發車 → 16:40抵達Chichester(CCH)火車站", desc:"", transit:""},
+  {time:"17:09", icon:"🚆", title:"Chichester(CCH)出發 → 18:45抵達倫敦Victoria(VIC)", desc:"", transit:""},
+  {time:"19:15", icon:"🏨", title:"返回東倫敦飯店", desc:"", transit:""}
+]},
+{ day:12, date:"10/17", weekday:"六", title:"肯辛頓公園 → Mayfair北側 → 西區購物", tripday:false, note:"", items:[
+  {time:"09:00", icon:"🚇", title:"出發往肯辛頓公園", desc:"", transit:"Aldgate East站 → 轉乘至 Queensway站或Lancaster Gate站,約35-40分鐘"},
+  {time:"09:30", icon:"🌳", title:"肯辛頓花園漫步 → 蛇形藝廊北館 → Serpentine Pavilion 2026 → Jesús Rafael Soto裝置", desc:"", transit:"",
+    highlights:[
+      {text:"Serpentine Pavilion 2026・LANZA atelier建築裝置本體"},
+      {text:"Jesús Rafael Soto《Pénétrable BBL Jaune》・可走入體驗的黃色懸垂裝置"},
+      {text:"北館常設戶外雕塑草坪"}
+    ]},
+  {time:"12:15", icon:"🍽️", title:"穿過海德公園至Mayfair/Oxford Street午餐咖啡", desc:"", transit:""},
+  {time:"13:45", icon:"🖼️", title:"Mayfair北側藍籌藝廊巡禮", desc:"承接10/8分流之Gagosian:Gagosian(Grosvenor Hill/Davies Street)旗艦大展、Sadie Coles HQ(Davies Street)、PERROTIN LONDON", transit:""},
+  {time:"16:30", icon:"🛍️", title:"西區購物", desc:"Selfridges百貨 → Bond Street精品街 → Oxford Circus", transit:""},
+  {time:"晚上", icon:"🍽️", title:"晚餐隨意", desc:"", transit:""}
+]},
+{ day:13, date:"10/18", weekday:"日", title:"劍橋一日遊", tripday:true, note:"備案B(若午餐後約13:50覺得學院外觀大同小異或人潮偏多可啟動):13:50-14:30快速至三一學院門口與牛頓蘋果樹、聖體鐘合照→14:40-15:00前往劍橋火車站,現場加買Cambridge↔Ely離峰來回票(使用Two Together折扣後單人約£3-4)→15:05-15:20搭直達列車前往Ely(約15分鐘)→15:25-16:45出站步行約8分鐘,漫步伊利大教堂(Ely Cathedral,「沼澤之冠」,八角形木造懸空穹頂The Octagon Lantern)與中世紀修道院街區→16:45-17:00返回Ely火車站→17:00後搭直達車返回London King's Cross(車程約75分鐘)。", items:[
+  {time:"08:55", icon:"🚇", title:"前往 King's Cross 車站", desc:"", transit:"從東倫敦飯店搭地鐵至London King's Cross(KGX)國鐵站,約20分鐘"},
+  {time:"09:24", icon:"🚆", title:"搭乘火車前往劍橋", desc:"09:24自King's Cross開往Cambridge(CBG)直達快車,10:17抵達", transit:""},
+  {time:"10:20", icon:"🚌", title:"移動至劍橋市中心", desc:"", transit:"出站搭Citi 1/3號公車約10分鐘,或悠閒步行至歷史街區(約1.5公里)"},
+  {time:"10:35", icon:"🏛️", title:"Kettle's Yard 藝廊 & 麥格達倫橋", desc:"Jim Ede故居改建的當代藝廊,欣賞20世紀雕塑與自然光影空間;漫步至旁邊的Magdalene Bridge俯瞰康河風光", transit:""},
+  {time:"12:15", icon:"🚶", title:"散步前往餐廳", desc:"穿過市中心古雅石板小巷前往Prospect Row", transit:""},
+  {time:"12:30", icon:"🎂", title:"午餐:The Free Press", desc:"已訂位確認12:30,兩人。享用道地英式Sunday Roast(週日烤肉大餐)搭配約克夏布丁與精釀生啤,慶祝老公第一次到倫敦", transit:""},
+  {time:"13:50", icon:"🚶", title:"經典學院巡禮", desc:"漫步Trinity Street,與三一學院大門右側草坪上的牛頓蘋果樹合照(免門票);途經聖體鐘(Corpus Clock)拍照,欣賞國王學院外觀", transit:""},
+  {time:"14:50", icon:"🌳", title:"康河後花園步道(The Backs)", desc:"穿過Garrett Hostel Lane漫步綠地步道,遠眺國王學院河畔草坪;走至Silver Street Bridge免費遠眺數學橋(Mathematical Bridge)", transit:""},
+  {time:"15:40", icon:"🍽️", title:"市集與甜點", desc:"穿過Market Square,順道於Fitzbillies購買招牌肉桂捲(Chelsea Bun)", transit:""},
+  {time:"16:00", icon:"🚶", title:"返回Cambridge火車站", desc:"", transit:"搭公車或步行"},
+  {time:"16:21", icon:"🚆", title:"搭車返抵倫敦", desc:"直達列車返回London King's Cross", transit:""}
+]},
+{ day:14, date:"10/19", weekday:"一", title:"薩奇藝廊 + 自然史博物館 + 生日晚餐", tripday:false, note:"Straker's訂位申請中,收到回信確認後記得跟我更新時段。", items:[
+  {time:"09:30", icon:"🚇", title:"前往 Sloane Square", desc:"", transit:"從東倫敦飯店出發,搭乘District線直達Sloane Square站,出站步行3分鐘抵達Duke of York Square"},
+  {time:"10:00", icon:"🏛️", title:"薩奇藝廊(Saatchi Gallery)", desc:"參觀國際前衛當代藝術展、新銳雕塑與裝置特展,停留約2小時,免費入場", transit:"",
+    highlights:[
+      {text:"40週年紀念特展・新委託創作"},
+      {text:"大型沉浸式裝置展廳"},
+      {text:"新銳藝術家實驗性影像作品"}
+    ]},
+  {time:"12:15", icon:"🍽️", title:"午餐:待定或隨意", desc:"備選:Manicomio(Duke of York Square,義式餐廳,走出藝廊約2分鐘)", transit:""},
+  {time:"13:30", icon:"☕", title:"咖啡小憩:Hagen Chelsea & 漫步South Kensington", desc:"喝杯道地北歐Flat White,順著Draycott Place/Sloane Avenue散步至South Kensington博物館大道(Exhibition Road)", transit:""},
+  {time:"14:00", icon:"🏛️", title:"自然史博物館(Natural History Museum)", desc:"欣賞宏偉羅曼復興式建築中庭與自然科學館藏,免費入場,建議事先預約免費時段。以下是5大必看亮點,點開可逐一打勾", transit:"",
+    highlights:[
+      {text:"Hintze Hall・巨型藍鯨骨骼「Hope」與162塊手繪植物彩繪屋頂"},
+      {text:"達爾文雕像 & 二樓巨杉(逾1300年樹齡)年輪橫截面"},
+      {text:"恐龍展廳・劍龍「Sophie」骨架與1:1機械暴龍"},
+      {text:"寶石礦物展廳The Vault・9,381克拉「奧斯特羅石」藍色托帕石"},
+      {text:"Earth Hall・貫穿地球核心的紅色發光手扶梯與地震模擬房間"}
+    ]},
+  {time:"16:15", icon:"🚶", title:"午後悠閒時光", desc:"可在南肯辛頓周邊逛街,準備晚上的生日晚餐", transit:"前往Notting Hill方向:可搭公車#70或#52,或搭District線在Hammersmith站轉Hammersmith & City線,在Ladbroke Grove站下車"},
+  {time:"18:30", icon:"🎂", title:"生日晚餐:Straker's", desc:"91 Golborne Rd, W10 5NL,Notting Hill", transit:""}
+]},
+{ day:15, date:"10/20", weekday:"二", title:"設計博物館 → Lisson Bell St → 悠閒前往機場", tripday:false, note:"", items:[
+  {time:"09:30", icon:"🏨", title:"飯店 Check-out 與行李寄放", desc:"", transit:""},
+  {time:"10:00", icon:"🚇", title:"前往設計博物館", desc:"", transit:"從Aldgate East站搭乘District線直達High Street Kensington站,車程約25分鐘"},
+  {time:"10:45", icon:"🏛️", title:"設計博物館(Design Museum)", desc:"參觀肯辛頓高街常設展與當代設計特展", transit:""},
+  {time:"12:45", icon:"🚇", title:"移動至Marylebone / Bell Street", desc:"", transit:"從High Street Kensington搭乘27號公車,或搭Circle線至Edgware Road站,約20分鐘抵達"},
+  {time:"13:15", icon:"🍽️", title:"Marylebone街區午餐", desc:"", transit:""},
+  {time:"14:15", icon:"🖼️", title:"Lisson Gallery(Bell Street旗艦展廳)", desc:"參觀27 & 67 Bell Street挑高雙展廳的當代雕塑與大型裝置個展,停留約1小時", transit:""},
+  {time:"15:15", icon:"🚇", title:"返回飯店取行李", desc:"", transit:"從Edgware Road站搭乘District或Hammersmith & City線直達Aldgate East站"},
+  {time:"15:50", icon:"🏨", title:"領取行李與整理隨身證件", desc:"領取3件行李,稍微歇息並確認護照與登機資料", transit:""},
+  {time:"16:45", icon:"🚇", title:"搭乘伊莉莎白線直達機場", desc:"往Heathrow Terminal 4或Terminal 2&3方向,車廂設有專屬大件行李區,車程約45分鐘", transit:"Whitechapel站全站設有升降電梯(Step-Free),大型行李移動無障礙"},
+  {time:"17:40", icon:"🛄", title:"抵達 LHR Terminal 3", desc:"出站後搭乘垂直電梯直通報到大廳,提早3小時抵達,從容辦理CI082報到托運、退稅、安檢與候機", transit:""},
+  {time:"21:10", icon:"✈️", title:"CI082 起飛回台灣", desc:"", transit:""}
+]}
+  ],
+  luggage: [],
+  prep: [],
+  inflight: [],
+  flights: [
+    {title:"去程 CI081", desc:"2026/10/6(二) 08:20 桃園機場T1 起飛 → 16:30 抵達倫敦 Heathrow Terminal 3", location:""},
+    {title:"回程 CI082", desc:"2026/10/20(二) 21:10 倫敦 Heathrow Terminal 3 起飛 → 隔日抵達桃園機場T1", location:""}
+  ],
+  accommodation: [
+    {title:"Aparthotel Adagio London City East", desc:"地址:100 Whitechapel Rd, London E1 1JG, England。最近地鐵站:Aldgate East(District線/H&C線)", location:"Aparthotel Adagio London City East, 100 Whitechapel Rd, London E1 1JG"}
+  ],
+  museum: [
+{p:"must", name:"大英博物館 British Museum", ticket:"免費", book:"需預約時段", transit:"Holborn / Tottenham Court Rd 站", addr:"Great Russell St, London WC1B 3DG", see:"埃及木乃伊、羅塞塔石碑", tip:"人潮最可怕,強烈建議預約一早入場。世界三大博物館之一。週五延長開放到20:30。", scheduledDay:4},
+      {p:"must", name:"國家美術館 National Gallery", ticket:"免費", book:"不需預約", transit:"Charing Cross 站", addr:"Trafalgar Square, London WC2N 5DN", see:"梵谷《向日葵》、達文西", tip:"鎮館之寶在46號展廳,時間不夠直攻這裡。印象派在43-46室,英國藝術Turner在40室。", scheduledDay:3},
+      {p:"must", name:"V&A 東館 V&A East Museum", ticket:"免費", book:"不需預約", transit:"Stratford 站(奧林匹克公園)", addr:"Queen Elizabeth Olympic Park, 107 Carpenters Rd, London E20 2AR", see:"", tip:"目前全館免費,有一檔免費展會在10/18結束,週四、週六延長到22:00。", scheduledDay:10},
+      {p:"must", name:"V&A 東館庫房 V&A East Storehouse", ticket:"免費", book:"Order an Object 需預約", transit:"Stratford 站(奧林匹克公園)", addr:"Queen Elizabeth Olympic Park, E20 3AX", see:"預約觸摸館藏文物", tip:"2025年新開幕,可看到修復師工作,近距離接觸預約的藏品。", scheduledDay:10},
+      {p:"must", name:"巴比肯藝術中心 Barbican Centre", ticket:"免費", book:"溫室需提前一週預約(約20分鐘場次)", transit:"Barbican 站", addr:"Silk St, London EC2Y 8DS", see:"粗獷主義建築、空中溫室", tip:"倫敦最大的藝文迷宮,除了看展還有電影院、圖書館。", scheduledDay:5},
+      {p:"must", name:"hayward gallery", ticket:"標準票£19", book:"需預約時段", transit:"", addr:"Southbank Centre, Belvedere Rd, SE1 8XX", see:"", tip:"Anish Kapoor個展只到10/18,記得排在這之前去。", scheduledDay:8},
+      {p:"must", name:"泰特現代美術館 Tate Modern", ticket:"免費(特展需付費)", book:"特展需預約", transit:"Southwark / Blackfriars 站", addr:"Bankside, London SE1 9TG", see:"渦輪大廳、10樓觀景台、畢卡索", tip:"頂樓可俯瞰聖保羅大教堂,夜景超美。旁邊就是波羅市場。", scheduledDay:8},
+      {p:"must", name:"薩奇藝廊 Saatchi Gallery", ticket:"免費", book:"不需預約,現場直接進", transit:"Sloane Square 站(切爾西)", addr:"Duke of York's HQ, King's Rd, SW3 4RY", see:"極簡白空間、爭議藝術", tip:"展覽換很快,每次去都有驚喜。週四延長到21:00。", scheduledDay:14},
+      {p:"must", name:"自然史博物館 Natural History Museum", ticket:"免費", book:"需預約時段", transit:"South Kensington 站(V&A隔壁)", addr:"Cromwell Rd, London SW7 5BD", see:"藍鯨骨骼、恐龍展區", tip:"建築像霍格華茲一樣美,週末排隊很長。⚠️10/9(五)因慈善晚會全館休館。", scheduledDay:14},
+      {p:"must", name:"設計博物館 Design Museum", ticket:"免費(特展需付費)", book:"", transit:"High St Kensington 站", addr:"224-238 Kensington High St, W8 6AG", see:"Designer Maker User 常設展", tip:"位於荷蘭公園旁,特展通常是世界級的。", scheduledDay:15},
+      {p:"must", name:"White Cube Mason's Yard", ticket:"", book:"", transit:"", addr:"25-26 Masons Yard, SW1Y 6BU", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"alison jacques gallery", ticket:"", book:"", transit:"", addr:"22 Cork St, W1S 3NG", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"hauser & wirth", ticket:"免費", book:"", transit:"", addr:"23 Savile Row, W1S 2ET", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"Gagosian, Davies Street", ticket:"", book:"", transit:"", addr:"17-19 Davies St, W1K 3DE", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"Gagosian, Burlington Arcade", ticket:"", book:"", transit:"", addr:"28-29 Burlington Arcade, W1J 0QJ", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"Gagosian, Grosvenor Hill", ticket:"", book:"", transit:"", addr:"20 Grosvenor Hill, W1K 3QD", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"The Photographers' Gallery", ticket:"", book:"", transit:"", addr:"16-18 Ramillies St, W1F 7LW", see:"", tip:"", scheduledDay:3},
+      {p:"must", name:"serpentine galleries (north)", ticket:"免費", book:"不需預約(建議捐款£1)", transit:"", addr:"W Carriage Dr, London W2 2AR", see:"", tip:"與Pavilion及Soto作品同園區,Cecily Brown個展。", scheduledDay:12},
+      {p:"must", name:"Serpentine Pavilion 2026 by LANZA atelier", ticket:"免費", book:"不需預約", transit:"", addr:"肯辛頓公園內", see:"", tip:"", scheduledDay:12},
+      {p:"nice", name:"Pace Gallery", ticket:"", book:"", transit:"", addr:"5 Hanover Square, W1S 1HQ", see:"", tip:"", scheduledDay:12},
+      {p:"nice", name:"Flowers Gallery", ticket:"", book:"", transit:"", addr:"Cork St, W1S", see:"", tip:"", scheduledDay:12},
+      {p:"nice", name:"Sadie Coles HQ", ticket:"", book:"", transit:"", addr:"62 Kingly St, W1B 5QN", see:"", tip:"", scheduledDay:12},
+      {p:"chill", name:"Perrotin", ticket:"", book:"", transit:"", addr:"8 Bennet St, SW1A 1RP", see:"", tip:"", scheduledDay:12},
+      {p:"nice", name:"V&A 博物館 Victoria and Albert", ticket:"免費", book:"不需預約", transit:"South Kensington 站", addr:"Cromwell Rd, SW7 2RL", see:"珠寶廊、雕塑館、世界最美咖啡廳", tip:"去 Gamble Room 喝咖啡是必須的!週五延長到22:00。", scheduledDay:null},
+      {p:"nice", name:"泰特不列顛 Tate Britain", ticket:"免費", book:"不需預約", transit:"Pimlico 站", addr:"Millbank, SW1P 4RG", see:"米雷《奧菲莉亞》、透納大量畫作", tip:"可搭 Tate Boat 接駁船去泰特現代美術館,一次攻略兩間泰特。", scheduledDay:null},
+      {p:"nice", name:"serpentine galleries (south)", ticket:"免費", book:"不需預約(建議捐款£1)", transit:"", addr:"W2 3XA", see:"", tip:"David Hockney個展。", scheduledDay:null},
+      {p:"nice", name:"White Cube Bermondsey", ticket:"", book:"", transit:"", addr:"144-152 Bermondsey St, SE1 3TQ", see:"", tip:"", scheduledDay:null},
+      {p:"chill", name:"華勒斯典藏館 Wallace Collection", ticket:"免費", book:"不需預約", transit:"Bond Street 站", addr:"Hertford House, Manchester Square, W1U 3BN", see:"弗拉戈納爾《鞦韆》、法式傢俱", tip:"倫敦免費博物館中的寶藏,中庭粉紅餐廳適合貴婦下午茶。", scheduledDay:null},
+      {p:"chill", name:"市政廳美術館 Guildhall Art Gallery", ticket:"免費", book:"不需預約", transit:"Bank 站", addr:"Guildhall Yard, EC2V 5AE", see:"羅馬競技場遺跡", tip:"被嚴重低估的免費景點,地下室能看到倫敦古羅馬競技場遺跡。", scheduledDay:null},
+      {p:"chill", name:"科學博物館 Science Museum", ticket:"免費", book:"", transit:"South Kensington 站", addr:"Exhibition Rd, SW7 2DD", see:"太空艙、飛行器、IMAX", tip:"在自然史博物館隔壁,兩間可以排一天。", scheduledDay:null},
+      {p:"chill", name:"索恩博物館 Sir John Soane's", ticket:"免費", book:"不需預約", transit:"Holborn 站(大英博物館附近)", addr:"13 Lincoln's Inn Fields, WC2A 3BP", see:"賽提一世石棺、機關牆", tip:"倫敦最瘋狂的家,走道超窄但塞滿寶物。每月一次燭光晚會。", scheduledDay:null},
+      {p:"chill", name:"考陶爾德美術館 Courtauld Gallery", ticket:"£12~", book:"", transit:"Temple 站(泰晤士河畔)", addr:"Somerset House, Strand, WC2R 0RN", see:"梵谷《包紮耳朵的自畫像》、馬奈", tip:"人少安靜,觀展品質極佳,收藏水準極高。", scheduledDay:null},
+      {p:"chill", name:"萊頓屋博物館 Leighton House", ticket:"£11~", book:"", transit:"Kensington (Olympia) 站", addr:"12 Holland Park Rd, W14 8LZ", see:"阿拉伯廳、孔雀藍磁磚", tip:"倫敦最像皇宮的私人住宅,建議跟桑伯恩屋買聯票一起逛。", scheduledDay:null},
+      {p:"chill", name:"桑伯恩屋 Sambourne House", ticket:"£12~", book:"", transit:"Kensington (Olympia) 站", addr:"18 Stafford Terrace, W8 7BH", see:"原汁原味維多利亞內裝", tip:"就在萊頓屋附近,彷彿屋主只是出門散步。", scheduledDay:null},
+      {p:"chill", name:"狄更斯故居 Charles Dickens Museum", ticket:"£12.95", book:"", transit:"Russell Square 站", addr:"48 Doughty St, WC1N 2LX", see:"書房手稿、初版手稿", tip:"狄更斯在倫敦唯一保留的家。", scheduledDay:null},
+      {p:"chill", name:"阿普斯利宅 Apsley House", ticket:"£12.50", book:"", transit:"Hyde Park Corner 站", addr:"149 Piccadilly, W1J 7NT", see:"拿破崙裸體雕像、滑鐵盧廳", tip:"威靈頓公爵的家,地址是「倫敦一號」。", scheduledDay:null},
+      {p:"chill", name:"Lisson Gallery", ticket:"", book:"", transit:"", addr:"27 Bell St, NW1 5BY", see:"", tip:"", scheduledDay:null}
+  ],
+  market: [
+{name:"哥倫比亞路花市 Columbia Road", open:"僅限週日", best:"週日 08:00-14:00", tip:"倫敦唯一週日花市,下午2點收攤前花材最便宜。", scheduledDay:6},
+      {name:"紅磚巷市集 Brick Lane", open:"週六-週日(店家天天開)", best:"週日", tip:"次文化聖地,只有週日才有滿街小吃與塗鴉藝術。", scheduledDay:6},
+      {name:"老斯皮塔佛德 Old Spitalfields", open:"天天營業", best:"週四(古董)/週三(黑膠藝術)", tip:"有屋頂室內市集,雨天首選。", scheduledDay:6},
+      {name:"柯芬園 Covent Garden", open:"天天營業", best:"週末(街頭藝人表演)", tip:"觀光客必訪,感受節慶氣氛。", scheduledDay:6},
+      {name:"肯頓市集 Camden Market", open:"天天營業", best:"平日(避開恐怖週末人潮)", tip:"龐克搖滾發源地,含Camden Lock Market。", scheduledDay:4},
+      {name:"波多貝羅路 Portobello Road", open:"週一-週六", best:"週六(古董日,最熱鬧也最擠)", tip:"全球最大古董市集。", scheduledDay:5},
+      {name:"波羅市場 Borough Market", open:"週二-週日", best:"週三-週五(避開週末人潮)", tip:"倫敦最好吃的美食市集,必吃海鮮燉飯、甜甜圈。", scheduledDay:null},
+      {name:"格林威治市集 Greenwich Market", open:"天天營業", best:"週末", tip:"手工藝品與異國美食,可搭配天文台一日遊。", scheduledDay:null},
+      {name:"百老匯市集 Broadway Market", open:"週六、週日(週日攤位較少)", best:"週六 09:00-17:00", tip:"文青最愛的運河市集,旁邊 London Fields 可野餐。", scheduledDay:null},
+      {name:"肯頓走廊 Camden Passage", open:"週三、週六", best:"週三/週六", tip:"隱藏版古董市集,比波多貝羅更精緻在地。", scheduledDay:null},
+      {name:"利德賀市場 Leadenhall Market", open:"天天開放(店家週末休)", best:"平日", tip:"哈利波特斜角巷拍攝場景。", scheduledDay:null},
+      {name:"七面鐘市場 Seven Dials", open:"天天營業", best:"每日午/晚餐", tip:"柯芬園附近室內美食廣場,起司迴轉台必吃。", scheduledDay:null},
+      {name:"Maltby Street 美食市集", open:"週六-週日", best:"週六 10:00-17:00", tip:"隱藏版波羅市場,鐵路拱門下的精緻美食,觀光客較少。", scheduledDay:null},
+      {name:"布里克斯頓 Brixton Market", open:"天天營業", best:"週末", tip:"加勒比海風情,大衛鮑伊的故鄉。", scheduledDay:null},
+      {name:"Golborne Road 古董美食街", open:"週一-週六", best:"週六", tip:"諾丁丘北邊更在地的古董街,必吃葡萄牙蛋塔,Straker's也在這條路上。", scheduledDay:null}
+  ],
+  food: [
+      {area:"Central London", name:"Regency Cafe", type:"傳統英式早餐店", station:"Pimlico", price:"●⚪⚪", tip:"", scheduledDay:2},
+      {area:"Central London", name:"Ben Venuti", type:"義式輕食小店", station:"Victoria", price:"●⚪⚪", tip:"", scheduledDay:2},
+      {area:"Central London", name:"Gordon's Wine Bar", type:"洞窟裡的古老酒吧", station:"Embankment", price:"●●⚪", tip:"", scheduledDay:3},
+      {area:"Central London", name:"Le Garrick", type:"老牌法式餐館", station:"Leicester Square", price:"●●⚪", tip:"", scheduledDay:3},
+      {area:"Central London", name:"Bar Italia", type:"蘇活區 24 小時傳奇義式咖啡館", station:"Leicester Square", price:"●⚪⚪", tip:"", scheduledDay:3},
+      {area:"Central London", name:"Darjeeling Express", type:"加爾各答女廚的名店", station:"Oxford Circus", price:"●●⚪", tip:"", scheduledDay:4},
+      {area:"Central London", name:"Noble Rot Soho", type:"頂級老派地下室餐酒館", station:"Tottenham Court Road", price:"●●●", tip:"", scheduledDay:4},
+      {area:"Central London", name:"Barrafina Dean Street", type:"頂級排隊西班牙 Tapas 吧", station:"Tottenham Court Road", price:"●●●", tip:"", scheduledDay:4},
+      {area:"West London", name:"Al Waha", type:"處處可愛的黎巴嫩餐廳", station:"Bayswater", price:"●●⚪", tip:"", scheduledDay:5},
+      {area:"West London", name:"Eggbreak", type:"熱門早午餐 / 蛋料理", station:"Notting Hill Gate", price:"●●⚪", tip:"", scheduledDay:5},
+      {area:"Central London", name:"Bibi", type:"新潮印度菜餐廳", station:"Bond Street", price:"●●●", tip:"", scheduledDay:12},
+      {area:"West London", name:"Le Relais De Venise L'Entrecote", type:"老字號法國牛排館", station:"Bond Street", price:"●●⚪", tip:"", scheduledDay:12}
+  ]
+};
+
+/* =========================================================
+   欄位設定 LIST_META(給新增/編輯表單使用)
+   ========================================================= */
+const LIST_META = {
+  luggage:{ titleKey:'title', hasDone:true, hasMaps:false, schema:[
+    {k:'title', label:'物品名稱', type:'text'},
+    {k:'desc', label:'備註', type:'textarea'}
+  ]},
+  prep:{ titleKey:'title', hasDone:true, hasMaps:false, schema:[
+    {k:'title', label:'項目', type:'text'},
+    {k:'desc', label:'備註(例如eVisa/eSIM相關)', type:'textarea'}
+  ]},
+  inflight:{ titleKey:'title', hasDone:true, hasMaps:false, schema:[
+    {k:'title', label:'項目', type:'text'},
+    {k:'desc', label:'備註', type:'textarea'}
+  ]},
+  flights:{ titleKey:'title', hasDone:false, hasMaps:false, schema:[
+    {k:'title', label:'標題', type:'text'},
+    {k:'desc', label:'內容(班機編號/時間/航廈)', type:'textarea'}
+  ]},
+  accommodation:{ titleKey:'title', hasDone:false, hasMaps:true, schema:[
+    {k:'title', label:'名稱', type:'text'},
+    {k:'desc', label:'內容(地址/電話/入住退房)', type:'textarea'},
+    {k:'location', label:'地圖搜尋關鍵字(留空用名稱)', type:'text'}
+  ]},
+  museum:{ titleKey:'name', hasDone:true, hasMaps:true, schema:[
+    {k:'name', label:'名稱', type:'text'},
+    {k:'p', label:'優先度(must/nice/chill)', type:'text'},
+    {k:'ticket', label:'門票', type:'text'},
+    {k:'book', label:'是否需預約', type:'text'},
+    {k:'transit', label:'交通/地鐵站', type:'text'},
+    {k:'addr', label:'地址', type:'text'},
+    {k:'see', label:'必看', type:'text'},
+    {k:'tip', label:'小提醒', type:'textarea'},
+    {k:'scheduledDay', label:'排入第幾天(數字,留空=未排入行程)', type:'text'}
+  ]},
+  market:{ titleKey:'name', hasDone:true, hasMaps:true, schema:[
+    {k:'name', label:'名稱', type:'text'},
+    {k:'open', label:'營業日', type:'text'},
+    {k:'best', label:'推薦時段', type:'text'},
+    {k:'tip', label:'小提醒', type:'textarea'},
+    {k:'scheduledDay', label:'排入第幾天(數字,留空=未排入行程)', type:'text'}
+  ]},
+  food:{ titleKey:'name', hasDone:true, hasMaps:true, schema:[
+    {k:'area', label:'區域', type:'text'},
+    {k:'name', label:'名稱', type:'text'},
+    {k:'type', label:'類型', type:'text'},
+    {k:'station', label:'地鐵站', type:'text'},
+    {k:'price', label:'價位', type:'text'},
+    {k:'tip', label:'小提醒', type:'textarea'},
+    {k:'scheduledDay', label:'適合第幾天隨意餐(數字,留空=其他店家)', type:'text'}
+  ]},
+  itinerary:{ titleKey:'title', hasDone:true, hasMaps:true, schema:[
+    {k:'time', label:'時間', type:'text'},
+    {k:'icon', label:'圖示(輸入一個emoji)', type:'text'},
+    {k:'title', label:'標題', type:'text'},
+    {k:'desc', label:'說明', type:'textarea'},
+    {k:'transit', label:'交通', type:'textarea'},
+    {k:'location', label:'地圖搜尋關鍵字(留空用標題)', type:'text'}
+  ]},
+  adhoc:{ titleKey:'title', hasDone:true, hasMaps:true, schema:[
+    {k:'title', label:'名稱', type:'text'},
+    {k:'desc', label:'備註', type:'textarea'},
+    {k:'location', label:'地圖搜尋關鍵字(留空用名稱)', type:'text'}
+  ]}
+};
+
+const MAIN_TABS = [
+  {k:'itinerary', icon:'📅', label:'每日行程'},
+  {k:'prep', icon:'🧳', label:'行前準備'},
+  {k:'logistics', icon:'🛫', label:'航班住宿'},
+  {k:'museum', icon:'🖼️', label:'美術館藝廊'},
+  {k:'market', icon:'🛍️', label:'市集美食'},
+  {k:'adhoc', icon:'💡', label:'臨時想到'}
+];
+const PREP_SUBS = [
+  {k:'luggage', icon:'🧳', label:'行李清單'},
+  {k:'prep', icon:'📋', label:'行前準備'},
+  {k:'inflight', icon:'✈️', label:'機上用品'}
+];
+const LOGISTICS_SUBS = [
+  {k:'flights', icon:'🛫', label:'航班資訊'},
+  {k:'accommodation', icon:'🏨', label:'住宿資訊'}
+];
+const MARKET_SUBS = [
+  {k:'market', icon:'🌸', label:'市集'},
+  {k:'food', icon:'🍽️', label:'想吃想喝'}
+];
+
+/* =========================================================
+   資料載入 / 儲存
+   ========================================================= */
+const STORAGE_KEY = 'london2026_appdata_v17';
+
+function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
+
+function ensureIds(app){
+  function walk(arr){
+    if(!Array.isArray(arr)) return;
+    arr.forEach(it=>{
+      if(!it.id) it.id = uid();
+      if(it.done===undefined) it.done = false;
+    });
+  }
+  if(!Array.isArray(app.adhoc)) app.adhoc = [];
+  walk(app.luggage); walk(app.prep); walk(app.inflight);
+  walk(app.flights); walk(app.accommodation);
+  walk(app.museum); walk(app.market); walk(app.food); walk(app.adhoc);
+  if(Array.isArray(app.itinerary)){
+    app.itinerary.forEach(d=>{
+      if(!d.id) d.id = uid();
+      walk(d.items);
+    });
+  }
+  return app;
+}
+
+function loadApp(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      return ensureIds(JSON.parse(raw));
+    }
+  }catch(e){}
+  const fresh = ensureIds(deepClone(DEFAULT_DATA));
+  saveApp(fresh);
+  return fresh;
+}
+function saveApp(app){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(app)); }catch(e){}
+}
+
+let APP = loadApp();
+
+/* =========================================================
+   狀態
+   ========================================================= */
+let mainTab = 'itinerary';
+let subTab = { prep:'luggage', logistics:'flights', market:'market' };
+let activeDay = 1;
+let museumFilter = 'all';
+let marketFilter = 'all';
+let foodAreaFilter = 'all';
+
+/* =========================================================
+   Modal
+   ========================================================= */
+function openModal(html){
+  document.getElementById('modalBox').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+
+function getListRef(listKey, dayIndex){
+  if(listKey==='itinerary'){
+    const d = APP.itinerary.find(x=>x.day===dayIndex);
+    return d ? d.items : null;
+  }
+  return APP[listKey];
+}
+
+function openItemForm(listKey, itemId, dayIndex){
+  const meta = LIST_META[listKey];
+  const arr = getListRef(listKey, dayIndex);
+  const item = itemId ? arr.find(x=>x.id===itemId) : null;
+
+  let dayPicker = '';
+  if(listKey==='itinerary'){
+    let opts = '';
+    for(let i=1;i<=15;i++){
+      opts += '<option value="'+i+'"'+(i===(dayIndex||activeDay)?' selected':'')+'>Day'+i+'</option>';
+    }
+    dayPicker = '<div class="field"><label>屬於第幾天</label><select id="f_day">'+opts+'</select></div>';
+  }
+
+  let fieldsHtml = dayPicker;
+  meta.schema.forEach(f=>{
+    const val = item ? esc(item[f.k]) : '';
+    if(f.type==='textarea'){
+      fieldsHtml += '<div class="field"><label>'+f.label+'</label><textarea id="f_'+f.k+'">'+val+'</textarea></div>';
+    } else {
+      fieldsHtml += '<div class="field"><label>'+f.label+'</label><input id="f_'+f.k+'" type="text" value="'+val.replace(/"/g,'&quot;')+'"></div>';
+    }
+  });
+
+  const title = item ? '編輯項目' : '新增項目';
+  let html = '<h2>'+title+'</h2>' + fieldsHtml +
+    '<div class="modal-actions">' +
+    '<button class="mbtn ghost" id="btnCancel">取消</button>' +
+    (item ? '<button class="mbtn danger" id="btnDelete">刪除</button>' : '') +
+    '<button class="mbtn primary" id="btnSave">儲存</button>' +
+    '</div>';
+  openModal(html);
+
+  document.getElementById('btnCancel').onclick = closeModal;
+  if(item){
+    document.getElementById('btnDelete').onclick = function(){
+      if(confirm('確定要刪除這個項目嗎?此動作無法復原。')){
+        const targetArr = listKey==='itinerary' ? getListRef('itinerary', dayIndex) : APP[listKey];
+        const idx = targetArr.findIndex(x=>x.id===itemId);
+        if(idx>-1) targetArr.splice(idx,1);
+        saveApp(APP);
+        closeModal();
+        renderAll();
+        showToast('已刪除');
+      }
+    };
+  }
+  document.getElementById('btnSave').onclick = function(){
+    let targetArr;
+    if(listKey==='itinerary'){
+      const newDay = parseInt(document.getElementById('f_day').value, 10);
+      targetArr = getListRef('itinerary', newDay);
+      if(item){
+        const oldArr = getListRef('itinerary', dayIndex);
+        const idx = oldArr.findIndex(x=>x.id===itemId);
+        if(idx>-1) oldArr.splice(idx,1);
+      }
+    } else {
+      targetArr = APP[listKey];
+    }
+
+    const data = item ? Object.assign({}, item) : { id: uid(), done:false };
+    meta.schema.forEach(f=>{
+      const el = document.getElementById('f_'+f.k);
+      let v = el ? el.value : '';
+      if(f.k==='scheduledDay'){
+        v = v.trim()==='' ? null : parseInt(v,10);
+      }
+      data[f.k] = v;
+    });
+
+    const titleVal = data[meta.titleKey];
+    if(!titleVal || !String(titleVal).trim()){
+      alert('請至少填寫名稱/標題');
+      return;
+    }
+
+    if(item){
+      targetArr.push(data);
+    } else {
+      targetArr.push(data);
+    }
+    saveApp(APP);
+    if(listKey==='itinerary') activeDay = parseInt(document.getElementById('f_day').value,10);
+    closeModal();
+    renderAll();
+    showToast('已儲存');
+  };
+}
+
+/* =========================================================
+   設定 Modal(重置 / 匯出 / 匯入)
+   ========================================================= */
+document.getElementById('settingsBtn').onclick = function(){
+  let html = '<h2>⚙️ 設定</h2><div class="settings-list">' +
+    '<button id="btnExport">📤 匯出資料(複製JSON)</button>' +
+    '<button id="btnImport">📥 匯入資料(貼上JSON)</button>' +
+    '<button class="danger" id="btnReset">♻️ 重置為預設行程</button>' +
+    '<button id="btnCloseSettings">關閉</button>' +
+    '</div>';
+  openModal(html);
+  document.getElementById('btnCloseSettings').onclick = closeModal;
+  document.getElementById('btnReset').onclick = function(){
+    if(confirm('確定要重置成預設行程嗎?你自己新增/修改的內容都會被清除,此動作無法復原。')){
+      APP = ensureIds(deepClone(DEFAULT_DATA));
+      saveApp(APP);
+      closeModal();
+      renderAll();
+      showToast('已重置為預設行程');
+    }
+  };
+  document.getElementById('btnExport').onclick = function(){
+    const json = JSON.stringify(APP);
+    let h = '<h2>📤 匯出資料</h2>' +
+      '<p style="font-size:12.5px;color:var(--text-soft);">複製下面這串文字,傳給同行者,他在「匯入資料」貼上就能同步。</p>' +
+      '<textarea class="io-textarea" id="exportArea" readonly>'+json+'</textarea>' +
+      '<div class="modal-actions">' +
+      '<button class="mbtn ghost" id="btnCloseExport">關閉</button>' +
+      '<button class="mbtn primary" id="btnCopy">複製</button>' +
+      '</div>';
+    openModal(h);
+    document.getElementById('btnCloseExport').onclick = closeModal;
+    document.getElementById('btnCopy').onclick = function(){
+      const ta = document.getElementById('exportArea');
+      ta.select();
+      ta.setSelectionRange(0, 999999);
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(ta.value);
+        } else {
+          document.execCommand('copy');
+        }
+        showToast('已複製到剪貼簿');
+      }catch(e){
+        showToast('複製失敗,請手動選取複製');
+      }
+    };
+  };
+  document.getElementById('btnImport').onclick = function(){
+    let h = '<h2>📥 匯入資料</h2>' +
+      '<p style="font-size:12.5px;color:var(--text-soft);">把同行者傳給你的那串文字貼在下面,按確認匯入即可同步。這會覆蓋掉目前手機上的資料。</p>' +
+      '<textarea class="io-textarea" id="importArea" placeholder="貼上JSON內容..."></textarea>' +
+      '<div class="modal-actions">' +
+      '<button class="mbtn ghost" id="btnCloseImport">取消</button>' +
+      '<button class="mbtn primary" id="btnDoImport">確認匯入</button>' +
+      '</div>';
+    openModal(h);
+    document.getElementById('btnCloseImport').onclick = closeModal;
+    document.getElementById('btnDoImport').onclick = function(){
+      const txt = document.getElementById('importArea').value.trim();
+      try{
+        const parsed = JSON.parse(txt);
+        APP = ensureIds(parsed);
+        saveApp(APP);
+        closeModal();
+        renderAll();
+        showToast('匯入成功');
+      }catch(e){
+        alert('這段文字看起來不是有效的資料格式,請確認複製完整。');
+      }
+    };
+  };
+};
+
+/* =========================================================
+   Fab 新增按鈕
+   ========================================================= */
+document.getElementById('fabAdd').onclick = function(){
+  if(mainTab==='itinerary'){
+    openItemForm('itinerary', null, activeDay);
+  } else if(mainTab==='prep'){
+    openItemForm(subTab.prep, null);
+  } else if(mainTab==='logistics'){
+    openItemForm(subTab.logistics, null);
+  } else if(mainTab==='museum'){
+    openItemForm('museum', null);
+  } else if(mainTab==='market'){
+    openItemForm(subTab.market, null);
+  } else if(mainTab==='adhoc'){
+    openItemForm('adhoc', null);
+  }
+};
+
+/* =========================================================
+   主 Tab / Sub Tab 渲染
+   ========================================================= */
+function renderMainTabs(){
+  const el = document.getElementById('maintabs');
+  el.innerHTML = '';
+  MAIN_TABS.forEach(t=>{
+    const btn = document.createElement('button');
+    btn.className = mainTab===t.k ? 'active' : '';
+    btn.innerHTML = '<span class="micon">'+t.icon+'</span><span>'+t.label+'</span>';
+    btn.onclick = ()=>{ mainTab = t.k; renderAll(); };
+    el.appendChild(btn);
+  });
+}
+
+function renderSubTabs(){
+  const el = document.getElementById('subtabs');
+  let subs = null, current = null, setter = null;
+  if(mainTab==='prep'){ subs = PREP_SUBS; current = subTab.prep; setter = v=>subTab.prep=v; }
+  else if(mainTab==='logistics'){ subs = LOGISTICS_SUBS; current = subTab.logistics; setter = v=>subTab.logistics=v; }
+  else if(mainTab==='market'){ subs = MARKET_SUBS; current = subTab.market; setter = v=>subTab.market=v; }
+
+  if(!subs){ el.classList.add('hidden'); el.innerHTML=''; return; }
+  el.classList.remove('hidden');
+  el.innerHTML = '';
+  subs.forEach(s=>{
+    const btn = document.createElement('button');
+    btn.className = current===s.k ? 'active' : '';
+    btn.textContent = s.icon + ' ' + s.label;
+    btn.onclick = ()=>{ setter(s.k); renderAll(); };
+    el.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   每日行程渲染
+   ========================================================= */
+function renderDayPills(){
+  const wrap = document.getElementById('dayPills');
+  if(mainTab!=='itinerary'){ wrap.classList.add('hidden'); return; }
+  wrap.classList.remove('hidden');
+  wrap.innerHTML = '';
+  APP.itinerary.forEach(d=>{
+    const pill = document.createElement('div');
+    pill.className = 'day-pill' + (d.day===activeDay?' active':'') + (d.tripday?' tripday':'');
+    pill.innerHTML = '<div class="dnum">Day'+d.day+'</div><div class="ddate">'+esc(d.date)+'</div>';
+    pill.onclick = ()=>{ activeDay = d.day; renderAll(); };
+    wrap.appendChild(pill);
+  });
+}
+
+function renderItineraryProgress(container){
+  let totalAll=0, doneAll=0;
+  APP.itinerary.forEach(d=>{ d.items.forEach(it=>{ totalAll++; if(it.done) doneAll++; }); });
+  const pill = document.createElement('div');
+  pill.className = 'progress-pill';
+  pill.innerHTML = '整趟行程 <b>'+doneAll+'/'+totalAll+'</b>';
+  container.appendChild(pill);
+
+  const d = APP.itinerary.find(x=>x.day===activeDay);
+  if(d){
+    let dTotal=d.items.length, dDone=0;
+    d.items.forEach(it=>{ if(it.done) dDone++; });
+    const pill2 = document.createElement('div');
+    pill2.className = 'progress-pill';
+    pill2.innerHTML = 'Day'+d.day+' <b>'+dDone+'/'+dTotal+'</b>';
+    container.appendChild(pill2);
+  }
+}
+
+/* =========================================================
+   單筆資料附加截圖/照片(通用,任何清單項目都能用)
+   ========================================================= */
+let pendingPhotoItem = null;
+
+function ensurePhotos(item){
+  if(!Array.isArray(item.photos)) item.photos = [];
+  return item.photos;
+}
+
+function renderPhotoAttachRow(item, noIndent){
+  const wrap = document.createElement('div');
+  wrap.className = noIndent ? 'photo-attach-row flush' : 'photo-attach-row';
+  const photos = ensurePhotos(item);
+
+  if(photos.length){
+    const grid = document.createElement('div');
+    grid.className = 'photo-grid';
+    photos.forEach((src, idx)=>{
+      const thumb = document.createElement('div');
+      thumb.className = 'photo-thumb';
+      const img = document.createElement('img');
+      img.src = src;
+      img.onclick = (e)=>{ e.stopPropagation(); openItemPhotoViewer(item, idx); };
+      thumb.appendChild(img);
+      grid.appendChild(thumb);
+    });
+    wrap.appendChild(grid);
+  }
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'abtn photoadd';
+  addBtn.textContent = photos.length ? '📎 再附加一張' : '📎 附加截圖/照片';
+  addBtn.onclick = (e)=>{
+    e.stopPropagation();
+    pendingPhotoItem = item;
+    document.getElementById('photoFileInput').click();
+  };
+  wrap.appendChild(addBtn);
+
+  return wrap;
+}
+
+function openItemPhotoViewer(item, idx){
+  const photos = ensurePhotos(item);
+  if(!photos[idx]) return;
+  const html = '<h2>照片</h2>' +
+    '<img class="photo-viewer-img" src="'+photos[idx]+'">' +
+    '<div class="modal-actions">' +
+    '<button class="mbtn ghost" id="btnClosePhoto">關閉</button>' +
+    '<button class="mbtn danger" id="btnDeletePhoto">刪除這張</button>' +
+    '</div>';
+  openModal(html);
+  document.getElementById('btnClosePhoto').onclick = closeModal;
+  document.getElementById('btnDeletePhoto').onclick = ()=>{
+    if(confirm('確定要刪除這張照片嗎?')){
+      photos.splice(idx,1);
+      saveApp(APP);
+      closeModal();
+      renderAll();
+      showToast('已刪除照片');
+    }
+  };
+}
+
+function compressImageFile(file, callback){
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const img = new Image();
+    img.onload = function(){
+      const maxSide = 1200;
+      let w = img.width, h = img.height;
+      if(w > h && w > maxSide){ h = Math.round(h * maxSide / w); w = maxSide; }
+      else if(h >= w && h > maxSide){ w = Math.round(w * maxSide / h); h = maxSide; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+      callback(dataUrl);
+    };
+    img.onerror = function(){ callback(null); };
+    img.src = e.target.result;
+  };
+  reader.onerror = function(){ callback(null); };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById('photoFileInput').addEventListener('change', function(e){
+  const files = Array.from(e.target.files || []);
+  if(!files.length || !pendingPhotoItem) return;
+  const item = pendingPhotoItem;
+  const photos = ensurePhotos(item);
+  let remaining = files.length;
+  let failedQuota = false;
+  files.forEach(file=>{
+    compressImageFile(file, dataUrl=>{
+      remaining--;
+      if(dataUrl){
+        try{
+          photos.push(dataUrl);
+          saveApp(APP);
+        }catch(err){
+          failedQuota = true;
+          const idx = photos.indexOf(dataUrl);
+          if(idx>-1) photos.splice(idx,1);
+        }
+      }
+      if(remaining===0){
+        e.target.value = '';
+        pendingPhotoItem = null;
+        renderAll();
+        if(failedQuota){
+          alert('手機儲存空間不夠了,這張(或這幾張)照片沒有存成功。建議先刪除幾張舊照片,或用「設定→匯出資料」備份後清一些空間。');
+        } else {
+          showToast('截圖已附加');
+        }
+      }
+    });
+  });
+});
+
+function renderItineraryList(){
+  const el = document.getElementById('listArea');
+  el.innerHTML = '';
+  const d = APP.itinerary.find(x=>x.day===activeDay);
+  if(!d) return;
+
+  const dh = document.createElement('div');
+  dh.className = 'day-header';
+  dh.innerHTML = '<div class="dtitle">Day'+d.day+' ・ '+esc(d.date)+'(週'+esc(d.weekday)+')</div><div class="dsub">'+esc(d.title)+'</div>';
+  el.appendChild(dh);
+
+  if(d.note){
+    const banner = document.createElement('div');
+    banner.className = 'daytrip-banner' + (d.tripday ? '' : ' info');
+    banner.textContent = (d.tripday ? '⚠️ ' : 'ℹ️ ') + d.note;
+    el.appendChild(banner);
+  }
+
+
+  if(!d.items.length){
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = '這天還沒有安排項目,點右下角「＋」新增。';
+    el.appendChild(empty);
+    return;
+  }
+
+  const tl = document.createElement('div');
+  tl.className = 'timeline';
+
+  function timeSortKey(t){
+    const m = /^(\d{1,2}):(\d{2})/.exec(t || '');
+    if(m) return parseInt(m[1],10)*60 + parseInt(m[2],10);
+    return 99999;
+  }
+  const sortedItems = d.items.slice().sort((a,b)=> timeSortKey(a.time) - timeSortKey(b.time));
+
+  sortedItems.forEach(item=>{
+    const isDone = !!item.done;
+    const row = document.createElement('div');
+    row.className = 'titem' + (isDone?' done':'');
+
+    const lineWrap = document.createElement('div');
+    lineWrap.className = 'tline';
+    const icon = document.createElement('div');
+    icon.className = 'ticon';
+    icon.textContent = item.icon || '📍';
+    lineWrap.appendChild(icon);
+    const bar = document.createElement('div');
+    bar.className = 'tbar';
+    lineWrap.appendChild(bar);
+    row.appendChild(lineWrap);
+
+    const body = document.createElement('div');
+    body.className = 'tbody';
+
+    const timeEl = document.createElement('div');
+    timeEl.className = 'ttime';
+    timeEl.textContent = item.time;
+    body.appendChild(timeEl);
+
+    const card = document.createElement('div');
+    card.className = 'tcard';
+
+    const titleRow = document.createElement('div');
+    titleRow.className = 'ttitle-row';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'ttitle';
+    titleEl.textContent = item.title;
+    titleRow.appendChild(titleEl);
+
+    const check = document.createElement('div');
+    check.className = 'tcheck' + (isDone?' checked':'');
+    check.textContent = isDone ? '✓' : '';
+    check.onclick = ()=>{
+      item.done = !item.done;
+      saveApp(APP);
+      renderAll();
+    };
+    titleRow.appendChild(check);
+    card.appendChild(titleRow);
+
+    if(item.desc){
+      const descEl = document.createElement('div');
+      descEl.className = 'tdesc';
+      descEl.textContent = item.desc;
+      card.appendChild(descEl);
+    }
+    if(item.transit){
+      const transitEl = document.createElement('div');
+      transitEl.className = 'ttransit';
+      transitEl.innerHTML = '<b>交通</b> ' + esc(item.transit);
+      card.appendChild(transitEl);
+    }
+
+    if(Array.isArray(item.highlights) && item.highlights.length){
+      const hWrap = document.createElement('div');
+      hWrap.className = 'hlwrap';
+      const hTitle = document.createElement('div');
+      hTitle.className = 'hltitle';
+      const hDoneCount = item.highlights.filter(h=>h.done).length;
+      hTitle.textContent = '🔖 必看清單 ' + hDoneCount + '/' + item.highlights.length;
+      hWrap.appendChild(hTitle);
+      item.highlights.forEach((h, hi)=>{
+        const hRow = document.createElement('div');
+        hRow.className = 'hlitem' + (h.done ? ' done' : '');
+        const hBox = document.createElement('div');
+        hBox.className = 'hlcheck' + (h.done ? ' checked' : '');
+        hBox.textContent = h.done ? '✓' : '';
+        hBox.onclick = ()=>{
+          h.done = !h.done;
+          saveApp(APP);
+          renderAll();
+        };
+        hRow.appendChild(hBox);
+        const hText = document.createElement('div');
+        hText.className = 'hltext';
+        hText.textContent = h.text;
+        hRow.appendChild(hText);
+        hWrap.appendChild(hRow);
+      });
+      card.appendChild(hWrap);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'tactions';
+    const q = item.location || item.title;
+    const mapA = document.createElement('a');
+    mapA.className = 'abtn maps';
+    mapA.href = mapsUrl(q);
+    mapA.target = '_blank';
+    mapA.rel = 'noopener';
+    mapA.textContent = '📍 導航';
+    actions.appendChild(mapA);
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'abtn';
+    editBtn.textContent = '✏️ 編輯';
+    editBtn.onclick = ()=>{ openItemForm('itinerary', item.id, d.day); };
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'abtn del';
+    delBtn.textContent = '🗑️ 刪除';
+    delBtn.onclick = ()=>{
+      if(confirm('確定要刪除「'+item.title+'」嗎?')){
+        const idx = d.items.indexOf(item);
+        if(idx>-1) d.items.splice(idx,1);
+        saveApp(APP);
+        renderAll();
+        showToast('已刪除');
+      }
+    };
+    actions.appendChild(delBtn);
+
+    card.appendChild(actions);
+    card.appendChild(renderPhotoAttachRow(item, true));
+    body.appendChild(card);
+    row.appendChild(body);
+    tl.appendChild(row);
+  });
+
+  el.appendChild(tl);
+}
+
+/* =========================================================
+   簡單清單渲染(行李/行前/機上/航班/住宿)
+   ========================================================= */
+function renderSimpleList(listKey){
+  const meta = LIST_META[listKey];
+  const arr = APP[listKey];
+  const el = document.getElementById('listArea');
+  el.innerHTML = '';
+
+  if(!arr.length){
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = '目前還沒有項目,點右下角「＋」新增第一筆。';
+    el.appendChild(empty);
+    return;
+  }
+
+  arr.forEach(item=>{
+    const isDone = meta.hasDone && item.done;
+    const card = document.createElement('div');
+    card.className = 'card' + (isDone?' done':'');
+
+    const head = document.createElement('div');
+    head.className = 'card-head';
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'card-title';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'name';
+    nameEl.textContent = item[meta.titleKey] || '(未命名)';
+    titleWrap.appendChild(nameEl);
+    if(item.desc){
+      const subEl = document.createElement('div');
+      subEl.className = 'sub';
+      subEl.textContent = item.desc;
+      titleWrap.appendChild(subEl);
+    }
+    head.appendChild(titleWrap);
+
+    if(meta.hasDone){
+      const cb = document.createElement('div');
+      cb.className = 'checkbox' + (isDone?' checked':'');
+      cb.textContent = isDone ? '✓' : '';
+      cb.onclick = ()=>{ item.done = !item.done; saveApp(APP); renderAll(); };
+      head.appendChild(cb);
+    }
+    card.appendChild(head);
+
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+    actions.style.paddingLeft = '12px';
+
+    if(meta.hasMaps){
+      const q = item.location || item[meta.titleKey];
+      const mapA = document.createElement('a');
+      mapA.className = 'abtn maps';
+      mapA.href = mapsUrl(q);
+      mapA.target = '_blank';
+      mapA.rel = 'noopener';
+      mapA.textContent = '📍 導航';
+      actions.appendChild(mapA);
+    }
+    const editBtn = document.createElement('button');
+    editBtn.className = 'abtn';
+    editBtn.textContent = '✏️ 編輯';
+    editBtn.onclick = ()=>{ openItemForm(listKey, item.id); };
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'abtn del';
+    delBtn.textContent = '🗑️ 刪除';
+    delBtn.onclick = ()=>{
+      if(confirm('確定要刪除這筆資料嗎?')){
+        const idx = arr.indexOf(item);
+        if(idx>-1) arr.splice(idx,1);
+        saveApp(APP);
+        renderAll();
+        showToast('已刪除');
+      }
+    };
+    actions.appendChild(delBtn);
+
+    card.appendChild(actions);
+    card.appendChild(renderPhotoAttachRow(item));
+    el.appendChild(card);
+  });
+}
+
+/* =========================================================
+   美術館 / 市集 / 想吃想喝 渲染
+   ========================================================= */
+function badgeIcon(p){
+  if(p==='must') return {cls:'must', text:'🔥'};
+  if(p==='nice') return {cls:'nice', text:'📸'};
+  return {cls:'chill', text:'🟤'};
+}
+
+function renderMuseumFilters(){
+  const el = document.getElementById('filterRow');
+  el.innerHTML = '';
+  const opts = [
+    {k:'all', label:'全部'},
+    {k:'scheduled', label:'📅 已排入行程'},
+    {k:'chill', label:'🌿 休閒備案'}
+  ];
+  opts.forEach(o=>{
+    const chip = document.createElement('div');
+    chip.className = 'filter-chip' + (museumFilter===o.k?' active':'');
+    chip.textContent = o.label;
+    chip.onclick = ()=>{ museumFilter = o.k; renderList(); };
+    el.appendChild(chip);
+  });
+}
+
+function renderMuseumList(){
+  const el = document.getElementById('listArea');
+  el.innerHTML = '';
+  const hint = document.createElement('div');
+  hint.className = 'section-hint';
+  hint.textContent = '依照行程日期排序,尚未排入行程的列在最下方(休閒備案)。點卡片看細節。';
+  el.appendChild(hint);
+
+  const items = APP.museum.slice().sort((a,b)=>{
+    const av = (a.scheduledDay===null||a.scheduledDay===undefined) ? 999 : a.scheduledDay;
+    const bv = (b.scheduledDay===null||b.scheduledDay===undefined) ? 999 : b.scheduledDay;
+    return av - bv;
+  });
+
+  items.forEach(item=>{
+    const scheduled = item.scheduledDay!==null && item.scheduledDay!==undefined && item.scheduledDay!=='';
+    if(museumFilter==='scheduled' && !scheduled) return;
+    if(museumFilter==='chill' && scheduled) return;
+
+    const isDone = !!item.done;
+    const card = document.createElement('div');
+    card.className = 'card' + (isDone?' done':'');
+
+    const head = document.createElement('div');
+    head.className = 'card-head';
+
+    const b = badgeIcon(item.p);
+    const badge = document.createElement('div');
+    badge.className = 'badge ' + b.cls;
+    badge.textContent = b.text;
+    head.appendChild(badge);
+
+    const dtag = document.createElement('div');
+    dtag.className = 'daytag' + (scheduled ? '' : ' off');
+    dtag.textContent = scheduled ? ('Day'+item.scheduledDay) : '休閒備案';
+    head.appendChild(dtag);
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'card-title';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'name';
+    nameEl.textContent = item.name;
+    titleWrap.appendChild(nameEl);
+    const subEl = document.createElement('div');
+    subEl.className = 'sub';
+    subEl.textContent = item.transit || '';
+    titleWrap.appendChild(subEl);
+    titleWrap.onclick = ()=>{ card.querySelector('.card-body').classList.toggle('open'); };
+    head.appendChild(titleWrap);
+
+    const cb = document.createElement('div');
+    cb.className = 'checkbox' + (isDone?' checked':'');
+    cb.textContent = isDone ? '✓' : '';
+    cb.onclick = (e)=>{ e.stopPropagation(); item.done = !item.done; saveApp(APP); renderAll(); };
+    head.appendChild(cb);
+
+    card.appendChild(head);
+
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    let rows = '';
+    if(item.ticket) rows += '<div class="row"><span class="label">門票</span>'+esc(item.ticket)+'</div>';
+    if(item.book) rows += '<div class="row"><span class="label">預約</span>'+esc(item.book)+'</div>';
+    if(item.transit) rows += '<div class="row"><span class="label">交通</span>'+esc(item.transit)+'</div>';
+    if(item.addr) rows += '<div class="row"><span class="label">地址</span>'+esc(item.addr)+'</div>';
+    if(item.see) rows += '<div class="row"><span class="label">必看</span>'+esc(item.see)+'</div>';
+    if(item.tip) rows += '<div class="tip">'+esc(item.tip)+'</div>';
+    body.innerHTML = rows || '<div class="row" style="color:var(--text-soft)">尚無更多資訊</div>';
+    card.appendChild(body);
+
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+    const q = item.addr || item.name;
+    const mapA = document.createElement('a');
+    mapA.className = 'abtn maps';
+    mapA.href = mapsUrl(q);
+    mapA.target = '_blank';
+    mapA.rel = 'noopener';
+    mapA.textContent = '📍 導航';
+    actions.appendChild(mapA);
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'abtn';
+    editBtn.textContent = '✏️ 編輯';
+    editBtn.onclick = ()=>{ openItemForm('museum', item.id); };
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'abtn del';
+    delBtn.textContent = '🗑️ 刪除';
+    delBtn.onclick = ()=>{
+      if(confirm('確定要刪除「'+item.name+'」嗎?')){
+        const idx = APP.museum.indexOf(item);
+        if(idx>-1) APP.museum.splice(idx,1);
+        saveApp(APP);
+        renderAll();
+        showToast('已刪除');
+      }
+    };
+    actions.appendChild(delBtn);
+
+    card.appendChild(actions);
+    card.appendChild(renderPhotoAttachRow(item));
+    el.appendChild(card);
+  });
+}
+
+function renderMarketFilters(){
+  const el = document.getElementById('filterRow');
+  el.innerHTML = '';
+  const opts = [
+    {k:'all', label:'全部'},
+    {k:'scheduled', label:'📅 已排入行程'},
+    {k:'ref', label:'📌 備用參考'}
+  ];
+  opts.forEach(o=>{
+    const chip = document.createElement('div');
+    chip.className = 'filter-chip' + (marketFilter===o.k?' active':'');
+    chip.textContent = o.label;
+    chip.onclick = ()=>{ marketFilter = o.k; renderList(); };
+    el.appendChild(chip);
+  });
+}
+
+function renderMarketList(){
+  const el = document.getElementById('listArea');
+  el.innerHTML = '';
+  const hint = document.createElement('div');
+  hint.className = 'section-hint';
+  hint.textContent = '依照行程日期排序,尚未排入行程的列在最下方(備用參考)。';
+  el.appendChild(hint);
+
+  const items = APP.market.slice().sort((a,b)=>{
+    const av = (a.scheduledDay===null||a.scheduledDay===undefined) ? 999 : a.scheduledDay;
+    const bv = (b.scheduledDay===null||b.scheduledDay===undefined) ? 999 : b.scheduledDay;
+    return av - bv;
+  });
+
+  items.forEach(item=>{
+    const scheduled = item.scheduledDay!==null && item.scheduledDay!==undefined && item.scheduledDay!=='';
+    if(marketFilter==='scheduled' && !scheduled) return;
+    if(marketFilter==='ref' && scheduled) return;
+
+    const isDone = !!item.done;
+    const card = document.createElement('div');
+    card.className = 'card' + (isDone?' done':'');
+
+    const head = document.createElement('div');
+    head.className = 'card-head';
+
+    const dtag = document.createElement('div');
+    dtag.className = 'daytag' + (scheduled ? '' : ' off');
+    dtag.textContent = scheduled ? ('Day'+item.scheduledDay) : '備用參考';
+    head.appendChild(dtag);
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'card-title';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'name';
+    nameEl.textContent = item.name;
+    titleWrap.appendChild(nameEl);
+    const subEl = document.createElement('div');
+    subEl.className = 'sub';
+    subEl.textContent = item.open || '';
+    titleWrap.appendChild(subEl);
+    titleWrap.onclick = ()=>{ card.querySelector('.card-body').classList.toggle('open'); };
+    head.appendChild(titleWrap);
+
+    const cb = document.createElement('div');
+    cb.className = 'checkbox' + (isDone?' checked':'');
+    cb.textContent = isDone ? '✓' : '';
+    cb.onclick = (e)=>{ e.stopPropagation(); item.done = !item.done; saveApp(APP); renderAll(); };
+    head.appendChild(cb);
+
+    card.appendChild(head);
+
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    let rows = '';
+    if(item.open) rows += '<div class="row"><span class="label">營業日</span>'+esc(item.open)+'</div>';
+    if(item.best) rows += '<div class="row"><span class="label">推薦時段</span>'+esc(item.best)+'</div>';
+    if(item.tip) rows += '<div class="tip">'+esc(item.tip)+'</div>';
+    body.innerHTML = rows || '<div class="row" style="color:var(--text-soft)">尚無更多資訊</div>';
+    card.appendChild(body);
+
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+    const mapA = document.createElement('a');
+    mapA.className = 'abtn maps';
+    mapA.href = mapsUrl(item.name);
+    mapA.target = '_blank';
+    mapA.rel = 'noopener';
+    mapA.textContent = '📍 導航';
+    actions.appendChild(mapA);
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'abtn';
+    editBtn.textContent = '✏️ 編輯';
+    editBtn.onclick = ()=>{ openItemForm('market', item.id); };
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'abtn del';
+    delBtn.textContent = '🗑️ 刪除';
+    delBtn.onclick = ()=>{
+      if(confirm('確定要刪除「'+item.name+'」嗎?')){
+        const idx = APP.market.indexOf(item);
+        if(idx>-1) APP.market.splice(idx,1);
+        saveApp(APP);
+        renderAll();
+        showToast('已刪除');
+      }
+    };
+    actions.appendChild(delBtn);
+
+    card.appendChild(actions);
+    card.appendChild(renderPhotoAttachRow(item));
+    el.appendChild(card);
+  });
+}
+
+function renderFoodFilters(){
+  const el = document.getElementById('filterRow');
+  el.innerHTML = '';
+  const days = [];
+  APP.food.forEach(it=>{
+    if(it.scheduledDay!==null && it.scheduledDay!==undefined && it.scheduledDay!=='' && days.indexOf(it.scheduledDay)===-1) days.push(it.scheduledDay);
+  });
+  days.sort((a,b)=>a-b);
+  const opts = [{k:'all', label:'全部'}].concat(days.map(d=>({k:'day'+d, label:'Day'+d})));
+  opts.forEach(o=>{
+    const chip = document.createElement('div');
+    chip.className = 'filter-chip' + (foodAreaFilter===o.k?' active':'');
+    chip.textContent = o.label;
+    chip.onclick = ()=>{ foodAreaFilter = o.k; renderList(); };
+    el.appendChild(chip);
+  });
+}
+
+function renderFoodList(){
+  const el = document.getElementById('listArea');
+  el.innerHTML = '';
+  const hint = document.createElement('div');
+  hint.className = 'section-hint';
+  hint.textContent = '這12家是那幾天「午餐/晚餐隨意」時順路可以考慮的店,依天數排列,點上面的Day篩選只看那天的選項。';
+  el.appendChild(hint);
+
+  const items = APP.food.slice().sort((a,b)=>{
+    const av = (a.scheduledDay===null||a.scheduledDay===undefined||a.scheduledDay==='') ? 999 : a.scheduledDay;
+    const bv = (b.scheduledDay===null||b.scheduledDay===undefined||b.scheduledDay==='') ? 999 : b.scheduledDay;
+    return av - bv;
+  });
+
+  items.forEach(item=>{
+    const scheduled = item.scheduledDay!==null && item.scheduledDay!==undefined && item.scheduledDay!=='';
+    if(foodAreaFilter!=='all' && foodAreaFilter!==('day'+item.scheduledDay)) return;
+
+    const isDone = !!item.done;
+    const card = document.createElement('div');
+    card.className = 'card' + (isDone?' done':'');
+
+    const head = document.createElement('div');
+    head.className = 'card-head';
+
+    const dtag = document.createElement('div');
+    dtag.className = 'daytag' + (scheduled ? '' : ' off');
+    dtag.textContent = scheduled ? ('Day'+item.scheduledDay+'可選') : '其他店家';
+    head.appendChild(dtag);
+
+    const titleWrap = document.createElement('div');
+    titleWrap.className = 'card-title';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'name';
+    nameEl.textContent = item.name;
+    titleWrap.appendChild(nameEl);
+    const subEl = document.createElement('div');
+    subEl.className = 'sub';
+    subEl.textContent = item.station || item.type || '';
+    titleWrap.appendChild(subEl);
+    titleWrap.onclick = ()=>{ card.querySelector('.card-body').classList.toggle('open'); };
+    head.appendChild(titleWrap);
+
+    const cb = document.createElement('div');
+    cb.className = 'checkbox' + (isDone?' checked':'');
+    cb.textContent = isDone ? '✓' : '';
+    cb.onclick = (e)=>{ e.stopPropagation(); item.done = !item.done; saveApp(APP); renderAll(); };
+    head.appendChild(cb);
+
+    card.appendChild(head);
+
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    let rows = '';
+    if(item.area) rows += '<div class="row"><span class="label">區域</span>'+esc(item.area)+'</div>';
+    if(item.station) rows += '<div class="row"><span class="label">地鐵站</span>'+esc(item.station)+'</div>';
+    if(item.type) rows += '<div class="row"><span class="label">類型</span>'+esc(item.type)+(item.price?'　'+esc(item.price):'')+'</div>';
+    if(item.tip) rows += '<div class="tip">'+esc(item.tip)+'</div>';
+    body.innerHTML = rows || '<div class="row" style="color:var(--text-soft)">尚無更多資訊</div>';
+    card.appendChild(body);
+
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+    const q = (item.station ? item.name+' '+item.station : item.name);
+    const mapA = document.createElement('a');
+    mapA.className = 'abtn maps';
+    mapA.href = mapsUrl(q);
+    mapA.target = '_blank';
+    mapA.rel = 'noopener';
+    mapA.textContent = '📍 導航';
+    actions.appendChild(mapA);
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'abtn';
+    editBtn.textContent = '✏️ 編輯';
+    editBtn.onclick = ()=>{ openItemForm('food', item.id); };
+    actions.appendChild(editBtn);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'abtn del';
+    delBtn.textContent = '🗑️ 刪除';
+    delBtn.onclick = ()=>{
+      if(confirm('確定要刪除「'+item.name+'」嗎?')){
+        const idx = APP.food.indexOf(item);
+        if(idx>-1) APP.food.splice(idx,1);
+        saveApp(APP);
+        renderAll();
+        showToast('已刪除');
+      }
+    };
+    actions.appendChild(delBtn);
+
+    card.appendChild(actions);
+    card.appendChild(renderPhotoAttachRow(item));
+    el.appendChild(card);
+  });
+}
+
+/* =========================================================
+   進度條(依分頁)
+   ========================================================= */
+function renderProgress(){
+  const el = document.getElementById('progressRow');
+  el.innerHTML = '';
+  if(mainTab==='itinerary'){
+    renderItineraryProgress(el);
+  } else if(mainTab==='prep'){
+    const key = subTab.prep;
+    const arr = APP[key];
+    const done = arr.filter(x=>x.done).length;
+    const pill = document.createElement('div');
+    pill.className = 'progress-pill';
+    pill.innerHTML = '進度 <b>'+done+'/'+arr.length+'</b>';
+    el.appendChild(pill);
+  } else if(mainTab==='museum'){
+    const done = APP.museum.filter(x=>x.done).length;
+    const pill = document.createElement('div');
+    pill.className = 'progress-pill';
+    pill.innerHTML = '已去過 <b>'+done+'/'+APP.museum.length+'</b>';
+    el.appendChild(pill);
+  } else if(mainTab==='market'){
+    const key = subTab.market;
+    const arr = APP[key];
+    const done = arr.filter(x=>x.done).length;
+    const pill = document.createElement('div');
+    pill.className = 'progress-pill';
+    pill.innerHTML = '已去過 <b>'+done+'/'+arr.length+'</b>';
+    el.appendChild(pill);
+  } else if(mainTab==='adhoc'){
+    const done = APP.adhoc.filter(x=>x.done).length;
+    const pill = document.createElement('div');
+    pill.className = 'progress-pill';
+    pill.innerHTML = '已完成 <b>'+done+'/'+APP.adhoc.length+'</b>';
+    el.appendChild(pill);
+  }
+}
+
+/* =========================================================
+   總控 render
+   ========================================================= */
+function renderList(){
+  document.getElementById('filterRow').innerHTML = '';
+  if(mainTab==='itinerary'){
+    renderItineraryList();
+  } else if(mainTab==='prep'){
+    renderSimpleList(subTab.prep);
+  } else if(mainTab==='logistics'){
+    renderSimpleList(subTab.logistics);
+  } else if(mainTab==='museum'){
+    renderMuseumFilters();
+    renderMuseumList();
+  } else if(mainTab==='market'){
+    if(subTab.market==='market'){
+      renderMarketFilters();
+      renderMarketList();
+    } else {
+      renderFoodFilters();
+      renderFoodList();
+    }
+  } else if(mainTab==='adhoc'){
+    renderSimpleList('adhoc');
+  }
+}
+
+function renderAll(){
+  renderMainTabs();
+  renderSubTabs();
+  renderDayPills();
+  renderProgress();
+  renderList();
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>
